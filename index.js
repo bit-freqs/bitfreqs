@@ -2,6 +2,7 @@ window.PIXI = require('phaser/build/custom/pixi')
 window.p2 = require('phaser/build/custom/p2')
 window.Phaser = require('phaser/build/custom/phaser-split')
 
+var Box = require('./box')
 
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
@@ -22,6 +23,8 @@ var cursors;
 var jumpButton;
 var bg;
 var yAxis = p2.vec2.fromValues(0, 1);
+
+
 
 function create() {
 
@@ -48,26 +51,23 @@ function create() {
 
     var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
     var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
-    var boxMaterial = game.physics.p2.createMaterial('worldMaterial');
+    var box = Box(game, 'worldMaterial')
 
     //  4 trues = the 4 faces of the world in left, right, top, bottom order
     game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
 
+
     //  A stack of boxes - you'll stick to these
     for (var i = 1; i < 4; i++)
     {
-        var box = game.add.sprite(300, 645 - (95 * i), 'atari');
-        game.physics.p2.enable(box);
-        box.body.mass = 6;
-        // box.body.static = true;
-        box.body.setMaterial(boxMaterial);
+      box.placeBox(300, 645 - (95 * i))
     }
 
     //  Here is the contact material. It's a combination of 2 materials, so whenever shapes with
     //  those 2 materials collide it uses the following settings.
 
     var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, worldMaterial, { friction: 0.0 });
-    var groundBoxesCM = game.physics.p2.createContactMaterial(worldMaterial, boxMaterial, { friction: 0.6 });
+    var groundBoxesCM = game.physics.p2.createContactMaterial(worldMaterial, box.material, { friction: 0.6 });
 
     //  Here are some more options you can set:
 
