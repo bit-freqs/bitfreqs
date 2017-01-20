@@ -3,18 +3,21 @@ var getUserMedia = require('getusermedia');
 var defer = require('pull-defer');
 var audio = require('read-audio');
 var unpack = require('ndarray-unpack');
-var freqs = require('ndsamples-frequencies');
+var rms = require('./pull-nd-rms');
+var decimate = require('./pull-decimate');
+
 
 module.exports = function () {
   var deferred = defer.source()
   getUserMedia({audio: true, video: false}, function(err, source) {
     var src =  pull(
-      audio({source: source}),
-      pull.map(freqs), 
-      pull.map(function(freq) {
-        return freq.step(-1) 
+      audio({
+        source: source,
+        channels: 1
       }),
-      pull.map(unpack)
+      decimate(10),
+      rms,
+      pull.map(unpack),
     )
     deferred.resolve(src)
   })
