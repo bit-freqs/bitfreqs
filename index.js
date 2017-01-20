@@ -2,7 +2,7 @@ window.PIXI = require('phaser/build/custom/pixi')
 window.p2 = require('phaser/build/custom/p2')
 window.Phaser = require('phaser/build/custom/phaser-split')
 
-var Box = require('./box')
+var abstractGrid = require('./abstractGrid');
 var grid = require('./utils/grid')
 var updateModule = require('./update')
 
@@ -13,6 +13,7 @@ var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'phaser-example
 function preload() {
     game.load.image('atari', 'assets/block.png');
     game.load.image('background', 'assets/background2.png');
+    game.load.image('coin', 'assets/sprite-coin.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 }
 
@@ -40,21 +41,16 @@ function create() {
     player.body.damping = 0.5;
 
     var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
-    var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
-    var box = Box(game, 'worldMaterial')
 
-    //  4 trues = the 4 faces of the world in left, right, top, bottom order
-    game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
-
-    //Creates sample grid
+    var ag = abstractGrid(game)
     for (var location of grid.boxLocations) {
-      box.placeBox(location.y, location.x)
+      ag.placeSprite(location.y, location.x, 'atari')
     }
 
     //  Here is the contact material. It's a combination of 2 materials, so whenever shapes with
     //  those 2 materials collide it uses the following settings.
-    var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, worldMaterial, { friction: 0.0 });
-    var groundBoxesCM = game.physics.p2.createContactMaterial(worldMaterial, box.material, { friction: 0.6 });
+    var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, ag.worldMaterial, { friction: 0.0 });
+    var groundBoxesCM = game.physics.p2.createContactMaterial(ag.worldMaterial, ag.material, { friction: 0.6 });
 
     var cursors = game.input.keyboard.createCursorKeys();
     var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
