@@ -34,10 +34,16 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "budo": "^8.2.0",
+    "detect-pitch": "^1.1.0",
     "gh-pages": "^0.11.0",
+    "ndarray": "^1.0.18",
+    "ndarray-fill": "^1.0.1",
+    "ndarray-ops": "^1.2.2",
+    "node-audio-rms": "^2.0.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.5.1",
     "uglifyify": "^3.0.1",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "zeros": "^1.0.0"
   }
 }
