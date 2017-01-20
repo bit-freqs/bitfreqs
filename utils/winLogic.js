@@ -14,6 +14,6 @@ function checkIfWin (gameHeight, gameWidth, playerX, playerY, totalCoins, coinsP
   var playerAtEndOfScreen = gameHeight == playerX && gameWidth == playerY
   var playerPickedAllCoins = pickedAllCoins(totalCoins, coinsPicked)
   if (playerAtEndOfScreen && playerPickedAllCoins){
-    return "Wis game"
+    return "Wins game"
   }
 }
