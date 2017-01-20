@@ -24,13 +24,12 @@ function create() {
 
     bg = game.add.tileSprite(0, 0, 800, 600, 'background');
 
-    game.physics.arcade.gravity.y = 300;
+    game.physics.arcade.gravity.y = 2500;
 
     player = game.add.sprite(32, 320, 'dude');
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.collideWorldBounds = true;
-    player.body.gravity.y = 1000;
     player.body.maxVelocity.y = 500;
     player.body.setSize(20, 32, 5, 16);
 
@@ -43,9 +42,12 @@ function create() {
 
 }
 
-function update() {
+function isJumping() {
+    return jumpButton.isDown || cursors.up.isDown;
+}
 
-    var velocityAbs = 250;
+function update() {
+    var velocityAbs = 350;
     player.body.velocity.x = 0;
 
     if (cursors.left.isDown) {
@@ -76,18 +78,12 @@ function update() {
         }
     }
     
-    if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer)
-    {
-        player.body.velocity.y = -500;
-        jumpTimer = game.time.now + 750;
+    if (isJumping() && player.body.onFloor()) {
+        player.body.velocity.y = -500; 
     }
 
 }
 
 function render () {
-
-    // game.debug.text(game.time.physicsElapsed, 32, 32);
-    // game.debug.body(player);
     game.debug.bodyInfo(player, 16, 24);
-
 }
