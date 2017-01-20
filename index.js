@@ -65,6 +65,7 @@ function create() {
     //   box.placeBox(i, 9 - i)
     // }
 
+    //Creates sample grid
     for (var location of grid.boxLocations) {
       box.placeBox(location.y, location.x)
     }
