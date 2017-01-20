@@ -58,9 +58,8 @@ function create() {
 
 
     //  A stack of boxes - you'll stick to these
-    for (var i = 1; i < 4; i++)
-    {
-      box.placeBox(300, 645 - (95 * i))
+    for (var i = 0; i < 3; i++) {
+      box.placeBox(300 - (i * 95), 500 - (i * 95))
     }
 
     //  Here is the contact material. It's a combination of 2 materials, so whenever shapes with
