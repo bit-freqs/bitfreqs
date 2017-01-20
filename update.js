@@ -1,37 +1,43 @@
+
+var state = {
+    facing: "left"
+}
+
 module.exports = function update(updateParameters) {
     var game = updateParameters.game;
     var player = updateParameters.player;
     var cursors = updateParameters.cursors;
     var jumpButton = updateParameters.jumpButton;
-    var facing = updateParameters.facing;
     var velocityAbs = 300;
 
     player.body.velocity.x = 0;
+
+    //console.log(state.facing)
     if (cursors.left.isDown) {
         player.body.velocity.x = -velocityAbs;
 
-        if (facing != 'left') {
+        if (state.facing != 'left') {
             player.animations.play('left');
-            facing = 'left';
+            state.facing = 'left';
         }
     } else if (cursors.right.isDown) {
         player.body.velocity.x = velocityAbs;
 
-        if (facing != 'right')
-        {
+        if (state.facing != 'right') {
             player.animations.play('right');
-            facing = 'right';
+            state.facing = 'right';
         }
-    } else { if (facing != 'idle') {
+    } else {
+        if (state.facing != 'idle') {
             player.animations.stop();
 
-            if (facing == 'left') {
+            if (state.facing == 'left') {
                 player.frame = 0;
             } else {
                 player.frame = 5;
             }
 
-            facing = 'idle';
+            state.facing = 'idle';
         }
     }
 
