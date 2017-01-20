@@ -94,7 +94,7 @@ function isJumping() {
 }
 
 function update() {
-    var velocityAbs = 350;
+    var velocityAbs = 300;
     player.body.velocity.x = 0;
 
     if (cursors.left.isDown) {
@@ -126,30 +126,24 @@ function update() {
     }
     
     if (isJumping() && checkIfCanJump()) {
-        player.body.velocity.y = -500; 
+        player.body.velocity.y = -700; 
     }
 
 }
 
 function checkIfCanJump() {
-
     var result = false;
-
-    for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
-    {
+    for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++) {
         var c = game.physics.p2.world.narrowphase.contactEquations[i];
 
-        if (c.bodyA === player.body.data || c.bodyB === player.body.data)
-        {
+        if (c.bodyA === player.body.data || c.bodyB === player.body.data) {
             var d = p2.vec2.dot(c.normalA, yAxis);
 
-            if (c.bodyA === player.body.data)
-            {
+            if (c.bodyA === player.body.data) {
                 d *= -1;
             }
 
-            if (d > 0.5)
-            {
+            if (d > 0.5) {
                 result = true;
             }
         }
