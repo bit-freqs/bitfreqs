@@ -58,11 +58,8 @@ function create() {
 
     var cursors = game.input.keyboard.createCursorKeys();
     var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    var facing = "left";
 
-    console.log(player);
     updateParameters = {
-        facing: facing,
         player: player,
         cursors: cursors,
         jumpButton: jumpButton,
