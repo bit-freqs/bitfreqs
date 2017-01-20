@@ -2,7 +2,15 @@ window.PIXI = require('phaser/build/custom/pixi')
 window.p2 = require('phaser/build/custom/p2')
 window.Phaser = require('phaser/build/custom/phaser-split')
 
+var pull = require('pull-stream')
+
 var Box = require('./box')
+var audio = require('./audio')
+
+pull(
+  audio(),
+  pull.log()
+)
 
 var gameHeight = 950
 var gameWidth = 1200
