@@ -5,6 +5,10 @@ module.exports = {
       y: 1
     },
     {
+      x: 9,
+      y: -0.2
+    },
+    {
       x: 8,
       y: 2
     },
@@ -71,6 +75,10 @@ module.exports = {
     {
       x: 8,
       y: 18
+    },
+    {
+      x: 9,
+      y: 19.8
     }
   ],
   coinLocations: [
