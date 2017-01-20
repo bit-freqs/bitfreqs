@@ -5,7 +5,7 @@ window.Phaser = require('phaser/build/custom/phaser-split')
 var Box = require('./box')
 var grid = require('./utils/grid')
 
-var gameHeight = 950
+var gameHeight = 750
 var gameWidth = 1200
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
@@ -132,7 +132,7 @@ function update() {
     }
 
     if (isJumping() && checkIfCanJump()) {
-        player.body.velocity.y = -700; 
+        player.body.velocity.y = -700;
     }
 
 }
