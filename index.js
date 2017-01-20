@@ -2,7 +2,10 @@ window.PIXI = require('phaser/build/custom/pixi')
 window.p2 = require('phaser/build/custom/p2')
 window.Phaser = require('phaser/build/custom/phaser-split')
 
-var abstractGrid = require('./abstractGrid');
+var AbstractGrid = require('./abstractGrid')
+var Coin = require('./coin')
+var Box = require('./box')
+
 var grid = require('./utils/grid')
 var updateModule = require('./update')
 
@@ -11,9 +14,9 @@ var gameWidth = 1200
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
-    game.load.image('atari', 'assets/block.png');
+    game.load.image('block', 'assets/block.png');
     game.load.image('background', 'assets/background2.png');
-    game.load.image('coin', 'assets/sprite-coin.png');
+    game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32);
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 }
 
@@ -40,17 +43,22 @@ function create() {
     player.body.fixedRotation = true;
     player.body.damping = 0.5;
 
-    var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
 
-    var ag = abstractGrid(game)
+    var boxPlacer = Box(game)
     for (var location of grid.boxLocations) {
-      ag.placeSprite(location.y, location.x, 'atari')
+        boxPlacer.place(location.y, location.x)
+    }
+
+    var coinPlacer = new Coin(game);
+    for (var location of grid.coinLocations) {
+        var coin = coinPlacer.place(location.y, location.x)
     }
 
     //  Here is the contact material. It's a combination of 2 materials, so whenever shapes with
     //  those 2 materials collide it uses the following settings.
-    var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, ag.worldMaterial, { friction: 0.0 });
-    var groundBoxesCM = game.physics.p2.createContactMaterial(ag.worldMaterial, ag.material, { friction: 0.6 });
+    var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
+    var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, AbstractGrid.worldMaterial, { friction: 0.0 });
+    var groundBoxesCM = game.physics.p2.createContactMaterial(AbstractGrid.worldMaterial, AbstractGrid.material, { friction: 0.6 });
 
     var cursors = game.input.keyboard.createCursorKeys();
     var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);

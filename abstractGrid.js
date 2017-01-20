@@ -1,22 +1,27 @@
-module.exports = function AbstractGrid(game, abstractGrid) {
-    var material = game.physics.p2.createMaterial('worldMaterial');
+module.exports = function AbstractGrid(game) {
+
+    var GRID_SIZE = 57
+
+    var objectMaterial = game.physics.p2.createMaterial('worldMaterial');
     var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
     game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
 
     return {
-        placeSprite: function(x, y, objectName) {
-            var scale = 0.6
-            var box = game.add.sprite(0, 0, objectName);
-            box.scale.setTo(scale, scale);
+        placeSprite: function(x, y, objectName, scale) {
+            var sprite = game.add.sprite(0, 0, objectName);
+            if(scale != null) {
+                sprite.scale.setTo(scale, scale)
+            }
 
-            box.x = x * box.width + 42.5
-            box.y = y * box.height + 205
+            sprite.x = x * GRID_SIZE + 42.5
+            sprite.y = y * GRID_SIZE + 205
 
-            game.physics.p2.enable(box);
-            box.body.static = true;
-            box.body.setMaterial(material);
+            game.physics.p2.enable(sprite);
+            
+            return sprite;
         },
-        material: material,
+
+        objectMaterial: objectMaterial,
         worldMaterial: worldMaterial
     }
 }
