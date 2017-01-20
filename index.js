@@ -6,7 +6,7 @@ var Box = require('./box')
 var grid = require('./utils/grid')
 var updateModule = require('./update')
 
-var gameHeight = 950
+var gameHeight = 750
 var gameWidth = 1200
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
@@ -28,7 +28,7 @@ function create() {
     game.physics.p2.world.setGlobalStiffness(1e5);
 
     //  Add a sprite
-    var player = game.add.sprite(200, 200, 'dude');
+    var player = game.add.sprite(0, gameHeight, 'dude');
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
@@ -73,4 +73,3 @@ function create() {
 function update() {
     return updateModule(updateParameters)
 }
-
