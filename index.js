@@ -45,42 +45,30 @@ function create() {
 
 function update() {
 
-    // game.physics.arcade.collide(player, layer);
-
+    var velocityAbs = 250;
     player.body.velocity.x = 0;
 
-    if (cursors.left.isDown)
-    {
-        player.body.velocity.x = -150;
+    if (cursors.left.isDown) {
+        player.body.velocity.x = -velocityAbs;
 
-        if (facing != 'left')
-        {
+        if (facing != 'left') {
             player.animations.play('left');
             facing = 'left';
         }
-    }
-    else if (cursors.right.isDown)
-    {
-        player.body.velocity.x = 150;
+    } else if (cursors.right.isDown) {
+        player.body.velocity.x = velocityAbs;
 
         if (facing != 'right')
         {
             player.animations.play('right');
             facing = 'right';
         }
-    }
-    else
-    {
-        if (facing != 'idle')
-        {
+    } else { if (facing != 'idle') {
             player.animations.stop();
 
-            if (facing == 'left')
-            {
+            if (facing == 'left') {
                 player.frame = 0;
-            }
-            else
-            {
+            } else {
                 player.frame = 5;
             }
 
