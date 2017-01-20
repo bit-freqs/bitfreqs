@@ -4,7 +4,9 @@ window.Phaser = require('phaser/build/custom/phaser-split')
 
 var Box = require('./box')
 
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+var gameHeight = 950
+var gameWidth = 1200
+var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
 
@@ -28,7 +30,7 @@ var yAxis = p2.vec2.fromValues(0, 1);
 
 function create() {
 
-    bg = game.add.tileSprite(0, 0, 800, 600, 'background');
+    bg = game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
 
     //  Enable p2 physics
     game.physics.startSystem(Phaser.Physics.P2JS);
@@ -58,8 +60,8 @@ function create() {
 
 
     //  A stack of boxes - you'll stick to these
-    for (var i = 0; i < 3; i++) {
-      box.placeBox(300 - (i * 95), 500 - (i * 95))
+    for (var i = 9; i >= 0; i--) {
+      box.placeBox(i, 9 - i)
     }
 
     //  Here is the contact material. It's a combination of 2 materials, so whenever shapes with

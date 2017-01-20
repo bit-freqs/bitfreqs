@@ -3,13 +3,13 @@ module.exports = function Box(game) {
 
   return { 
     placeBox: function placeBox(x, y) {
-      var box = game.add.sprite(x, y, 'atari');
-      console.log(box)
+      var box = game.add.sprite(0, 0, 'atari');
+      box.x = x * box.width + 42.5
+      box.y = y * box.height + 42.5
+
       game.physics.p2.enable(box);
       box.body.static = true;
       box.body.setMaterial(boxMaterial);
-      this.height = box.height
-      this.width = box.width
     },
     material: boxMaterial
   }
