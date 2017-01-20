@@ -6,7 +6,7 @@ var Box = require('./box')
 var grid = require('./utils/grid')
 var updateModule = require('./update')
 
-var gameHeight = 950
+var gameHeight = 750
 var gameWidth = 1200
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
@@ -73,4 +73,3 @@ function create() {
 function update() {
     return updateModule(updateParameters)
 }
-
