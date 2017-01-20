@@ -30,13 +30,16 @@ var yAxis = p2.vec2.fromValues(0, 1);
 
 
 function create() {
-
     bg = game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
 
     //  Enable p2 physics
     game.physics.startSystem(Phaser.Physics.P2JS);
 
-    game.physics.p2.gravity.y = 350;
+    //player.body.collideWorldBounds = true;
+    //player.body.maxVelocity.y = 500;
+    //player.body.setSize(20, 32, 5, 16);
+
+    game.physics.p2.gravity.y = 2500;
     game.physics.p2.world.defaultContactMaterial.friction = 0.3;
     game.physics.p2.world.setGlobalStiffness(1e5);
 
@@ -92,42 +95,35 @@ function create() {
 
 }
 
+function isJumping() {
+    return jumpButton.isDown || cursors.up.isDown;
+}
+
 function update() {
+    var velocityAbs = 350;
+    player.body.velocity.x = 0;
 
-    if (cursors.left.isDown)
-    {
-        player.body.moveLeft(200);
+    if (cursors.left.isDown) {
+        player.body.velocity.x = -velocityAbs;
 
-        if (facing != 'left')
-        {
+        if (facing != 'left') {
             player.animations.play('left');
             facing = 'left';
         }
-    }
-    else if (cursors.right.isDown)
-    {
-        player.body.moveRight(200);
+    } else if (cursors.right.isDown) {
+        player.body.velocity.x = velocityAbs;
 
         if (facing != 'right')
         {
             player.animations.play('right');
             facing = 'right';
         }
-    }
-    else
-    {
-        player.body.velocity.x = 0;
-
-        if (facing != 'idle')
-        {
+    } else { if (facing != 'idle') {
             player.animations.stop();
 
-            if (facing == 'left')
-            {
+            if (facing == 'left') {
                 player.frame = 0;
-            }
-            else
-            {
+            } else {
                 player.frame = 5;
             }
 
@@ -135,10 +131,8 @@ function update() {
         }
     }
 
-    if (jumpButton.isDown && game.time.now > jumpTimer && checkIfCanJump())
-    {
-        player.body.moveUp(300);
-        jumpTimer = game.time.now + 750;
+    if (isJumping() && checkIfCanJump()) {
+        player.body.velocity.y = -500;
     }
 
 }
@@ -168,5 +162,4 @@ function checkIfCanJump() {
     }
 
     return result;
-
 }
