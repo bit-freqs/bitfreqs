@@ -3,6 +3,7 @@ window.p2 = require('phaser/build/custom/p2')
 window.Phaser = require('phaser/build/custom/phaser-split')
 
 var Box = require('./box')
+var grid = require('./utils/grid')
 
 var gameHeight = 950
 var gameWidth = 1200
@@ -47,7 +48,7 @@ function create() {
 
     //  Enable if for physics. This creates a default rectangular body.
     game.physics.p2.enable(player);
-    
+
     player.body.fixedRotation = true;
     player.body.damping = 0.5;
 
@@ -60,8 +61,12 @@ function create() {
 
 
     //  A stack of boxes - you'll stick to these
-    for (var i = 9; i >= 0; i--) {
-      box.placeBox(i, 9 - i)
+    // for (var i = 9; i >= 0; i--) {
+    //   box.placeBox(i, 9 - i)
+    // }
+
+    for (var location of grid.boxLocations) {
+      box.placeBox(location.y, location.x)
     }
 
     //  Here is the contact material. It's a combination of 2 materials, so whenever shapes with
@@ -128,7 +133,7 @@ function update() {
             facing = 'idle';
         }
     }
-    
+
     if (jumpButton.isDown && game.time.now > jumpTimer && checkIfCanJump())
     {
         player.body.moveUp(300);
@@ -160,7 +165,7 @@ function checkIfCanJump() {
             }
         }
     }
-    
+
     return result;
 
 }
