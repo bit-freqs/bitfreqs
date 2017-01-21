@@ -18,7 +18,7 @@ Play.prototype = {
     var game = this.game
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
     game.load.spritesheet('block', 'assets/ground-sprite.png', 32, 32)
-    game.load.image('restartbutton', 'assets/restart.PNG')
+    game.load.image('restartbutton', 'assets/restart.png', 64, 32)
     game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32)
     game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100, 16)
 
@@ -73,7 +73,6 @@ function createPlayer (game) {
 }
 
 function createGame (game) {
-  game.add.button(750, 75, 'restartbutton', () => this.gotoPlay(), this)
   game.physics.startSystem(Phaser.Physics.P2JS)
   game.physics.p2.gravity.y = 2500
   game.physics.p2.world.defaultContactMaterial.friction = 0.3
@@ -81,6 +80,10 @@ function createGame (game) {
   game.physics.p2.setImpactEvents(true)
 
   background.create(game)
+
+  var scale = 2
+  var restart = game.add.button(gameWidth - (80 * scale), 10, 'restartbutton', () => this.gotoPlay(), this)
+  restart.scale.setTo(scale, scale)
 
   pull(
       audio,
