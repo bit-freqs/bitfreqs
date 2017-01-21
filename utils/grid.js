@@ -95,7 +95,7 @@ module.exports = {
       y: 14
     },
     {
-      x: 7,
+      x: 4,
       y: 16
     }
   ]
