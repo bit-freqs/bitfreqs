@@ -24,7 +24,7 @@ Splash.prototype = {
     })
 
     var helpText = "Instructions: The dude was on the beach and lost all his coins, you need to grab " +
-      "them prior to exiting the level to win. You can place platforms on the ground by holding the " + 
+      "them prior to exiting the level to win. You can place platforms on the air by holding the " + 
       "letter 'Q' and screaming at your computer. The louder you scream the higher the platform will be."
 
     var textAttributes = {
