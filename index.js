@@ -54,9 +54,10 @@ function create() {
     player.body.damping = 0.5;
 
     var boxPlacer = Box(game)
-    for (var location of grid.boxLocations) {
-        boxPlacer.place(location.y, location.x)
-    }
+    boxPlacer.placeDefaultBoxes()
+    //for (var location of grid.boxLocations) {
+        //boxPlacer.place(location.y, location.x)
+    //}
 
     var coinPlacer = new Coin(game, player, coinHit);
     for (var location of grid.coinLocations) {
