@@ -10,8 +10,8 @@ function pickedAllCoins (totalCoins, coinsPicked){
   return false
 }
 
-function checkIfWin (gameHeight, gameWidth, playerX, playerY, totalCoins, coinsPicked){
-  var playerAtEndOfScreen = gameHeight == playerX && gameWidth == playerY
+function checkIfWin (gameWidth, playerX, totalCoins, coinsPicked){
+  var playerAtEndOfScreen = gameWidth == playerX
   var playerPickedAllCoins = pickedAllCoins(totalCoins, coinsPicked)
   if (playerAtEndOfScreen && playerPickedAllCoins){
     return "Wins game"
