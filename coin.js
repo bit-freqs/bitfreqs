@@ -12,9 +12,7 @@ module.exports = function (game, player, coinHit) {
             coin.body.data.gravityScale = 0
             coin.body.setRectangle(32, 32, 0, 0);
 
-            console.log(coin);
             player.body.createBodyCallback(coin, coinHit, coin)
-            console.log('adding callback');
         },
     }
 }
