@@ -9,10 +9,10 @@ var Coin = require('./coin')
 var Box = require('./box')
 var audio = require('./audio')
 
-pull(
-  audio(),
-  pull.log()
-)
+// pull(
+//   audio(),
+//   pull.log()
+// )
 
 var grid = require('./utils/grid')
 var updateModule = require('./update')
@@ -51,6 +51,8 @@ function create() {
         player: player,
         cursors: cursors,
         jumpButton: jumpButton,
+        gameWidth: gameWidth,
+        gameHeight: gameHeight,
         game: game
     }
 }
@@ -84,7 +86,7 @@ function update() {
 }
 
 function coinHit(body1, body2) {
-    if(!body2.hasCollided) { 
+    if(!body2.hasCollided) {
         this.destroy()
 
         state.coinsPicked += 1

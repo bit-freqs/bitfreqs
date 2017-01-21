@@ -1,4 +1,5 @@
 var Box = require('./box')
+var checkIfWin = require('./utils/winLogic').checkIfWin
 
 module.exports = function update(updateParameters, state) {
     var game = updateParameters.game;
@@ -9,6 +10,9 @@ module.exports = function update(updateParameters, state) {
 
     var cursors = game.input.keyboard.createCursorKeys();
     var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    checkIfWin(updateParameters.gameWidth, player.x, state.totalCoins, state.coinsPicked)
+    tempVoiceInput(game, state)
+
     if (cursors.left.isDown) {
         player.body.velocity.x = -velocityAbs;
 
@@ -42,8 +46,6 @@ module.exports = function update(updateParameters, state) {
         player.body.velocity.y = -700
         state.jumpTimer = game.time.now + 750
     }
-
-    tempVoiceInput(game, state)
 }
 
 function isJumping(jumpButton, cursors) {
@@ -78,7 +80,7 @@ function tempVoiceInput(game, state) {
         for(var key = 48; key <= 57; key++) {
             if(game.input.keyboard.isDown(key)) {
                 var nb = key - 48;
-                console.log(nb)
+                addBox(nb, game, state)
                 state.keypressTimer = game.time.now + 750;
             }
         }
