@@ -8,10 +8,12 @@ var Box = require('./box')
 
 var grid = require('./utils/grid')
 var updateModule = require('./update')
+var initialState = require('./utils/initialState')
 
 var gameHeight = 750
 var gameWidth = 1200
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+var state = initialState(grid.coinLocations)
 
 function preload() {
     game.load.image('block', 'assets/block.png');
