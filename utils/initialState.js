@@ -6,6 +6,7 @@ module.exports = function(numCoins){
     jumpTimer: 0,
     keypressTimer: 0,
     currentAddCol: 1,
-    lastActivity: 0
+    lastActivity: 0,
+    placeBoxTimer: 0
   }
 }
