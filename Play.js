@@ -7,6 +7,7 @@ var audio = require('./audio')()
 var updateModule = require('./update')
 var grid = require('./utils/grid')
 var initialState = require('./utils/initialState')
+var background = require('./background')
 
 function Play (game) {
   this.player
@@ -15,13 +16,13 @@ function Play (game) {
 Play.prototype = {
   preload: function () {
     var game = this.game
-    game.load.image('background', 'assets/background-flat.png')
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
     game.load.spritesheet('block', 'assets/ground-sprite.png', 32, 32)
     game.load.image('restartbutton', 'assets/restart.PNG')
     game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32)
     game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100, 16)
-    game.load.spritesheet('waves', 'assets/wave-sprite-attempt.png', 285, 32, 5)
+
+    background.preload(game)
   },
   create: function () {
     var game = this.game
@@ -72,14 +73,14 @@ function createPlayer (game) {
 }
 
 function createGame (game) {
-  game.add.image(gameWidth, gameHeight, 'background')
-  //game.add.sprite(0, gameHeight - 32, 'waves')
   game.add.button(750, 75, 'restartbutton', () => this.gotoPlay(), this)
   game.physics.startSystem(Phaser.Physics.P2JS)
   game.physics.p2.gravity.y = 2500
   game.physics.p2.world.defaultContactMaterial.friction = 0.3
   game.physics.p2.world.setGlobalStiffness(1e5)
   game.physics.p2.setImpactEvents(true)
+
+  background.create(game)
 
   pull(
       audio,

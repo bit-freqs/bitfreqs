@@ -9,7 +9,7 @@ module.exports = function AbstractGrid (game) {
       }
 
       sprite.x = x * GRID_SIZE + 31
-      sprite.y = y * GRID_SIZE + 205
+      sprite.y = y * GRID_SIZE + 105
 
       game.physics.p2.enable(sprite)
 
