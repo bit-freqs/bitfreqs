@@ -38,14 +38,12 @@ function updatePlayer(updateParameters, setScreen) {
 
   var canJump = checkIfCanJump(game, player)
   if (isPressingJump(jumpButton, cursors) && canJump && game.time.now > state.jumpTimer) {
-    console.log('here I am')
     player.body.velocity.y = -700
     state.jumpTimer = game.time.now + 750
     state.jumping = true
     state.jumpedLastUpdate = true
   } else {
     if(!state.jumpedLastUpdate) {
-      //console.log("canjump: "+ canJump + ", state.jumping:" + state.jumping)
       if (canJump) {
         state.jumping = false
       }
@@ -53,10 +51,6 @@ function updatePlayer(updateParameters, setScreen) {
       state.jumpedLastUpdate = false
     }
   }
-
-  //if(canJump) {
-    //state.jumping = false
-  //}
 
   var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
   if(!idling) {
