@@ -15,8 +15,5 @@ function checkIfWin (gameWidth, gameHeight, playerX, playerY, totalCoins, coinsP
   var playerPickedAllCoins = pickedAllCoins(totalCoins, coinsPicked)
   var playerOnGround = playerY >= gameHeight - 24
 
-  if (playerAtEndOfScreen && playerPickedAllCoins){
-    console.log("WINNER")
-    return "Wins game"
-  }
+  return playerAtEndOfScreen && playerPickedAllCoins
 }
