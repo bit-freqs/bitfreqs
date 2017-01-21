@@ -2,9 +2,17 @@ window.PIXI = require('phaser/build/custom/pixi')
 window.p2 = require('phaser/build/custom/p2')
 window.Phaser = require('phaser/build/custom/phaser-split')
 
+var pull = require('pull-stream')
+
 var AbstractGrid = require('./abstractGrid')
 var Coin = require('./coin')
 var Box = require('./box')
+var audio = require('./audio')
+
+pull(
+  audio(),
+  pull.log()
+)
 
 var grid = require('./utils/grid')
 var updateModule = require('./update')
