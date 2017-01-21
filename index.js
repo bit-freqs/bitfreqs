@@ -27,7 +27,8 @@ function preload() {
     game.load.image('block', 'assets/block.png');
     game.load.image('background', 'assets/background2.png');
     game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32);
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    //game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100);
 }
 
 var updateParameters = {}
@@ -63,10 +64,14 @@ function createGame() {
 }
 
 function createPlayer(game) {
-    var player = game.add.sprite(0, gameHeight - 100, 'dude');
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('turn', [4], 20, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    var player = game.add.sprite(25, gameHeight - 150, 'dude');
+    var animationSpeed = 2
+
+    player.animations.add('right', [7, 8, 9, 10, 11, 12], animationSpeed, true);
+    player.animations.add('left', [1, 2, 3, 4, 5, 6], animationSpeed, true);
+    //player.animations.add('jump-right', [16], animationSpeed, true);
+    player.animations.add('jump-left', [0], animationSpeed, true);
+    player.animations.add('idle', [14, 15], animationSpeed, true);
 
     game.physics.p2.enable(player);
 

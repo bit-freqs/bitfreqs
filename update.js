@@ -13,42 +13,47 @@ module.exports = function update(updateParameters, state) {
     checkIfWin(updateParameters.gameWidth, player.x, state.totalCoins, state.coinsPicked)
     tempVoiceInput(game, state)
 
+    var jumping = !checkIfCanJump(game, player)
+    var facingLeft = state.facing == 'left'
+    var facingRight = state.facing == 'right'
+
     if (cursors.left.isDown) {
         player.body.velocity.x = -velocityAbs;
-
-        if (state.facing != 'left') {
+        if(!jumping) { 
             player.animations.play('left');
             state.facing = 'left';
+        } else {
+            player.animations.play('jump-left');
         }
     } else if (cursors.right.isDown) {
         player.body.velocity.x = velocityAbs;
-
-        if (state.facing != 'right') {
+        if(!jumping) { 
             player.animations.play('right');
-            state.facing = 'right';
+        } else {
+            player.animations.play('jump-right');
         }
-    } else {
-        if (state.facing != 'idle') {
-            player.animations.stop();
 
-            if (state.facing == 'left') {
-                player.frame = 0;
-            } else {
-                player.frame = 5;
-            }
-
-            state.facing = 'idle';
-        }
+        state.facing = 'right';
     }
 
-    if (isJumping(jumpButton, cursors) && checkIfCanJump(game, player)
-            && game.time.now > state.jumpTimer) {
+    if (isPressingJump(jumpButton, cursors) && !jumping && game.time.now > state.jumpTimer) {
         player.body.velocity.y = -700
         state.jumpTimer = game.time.now + 750
     }
+
+    var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
+    if(!idling) {
+        state.lastActivity = game.time.now
+    }
+
+    var beenIdleEnough = game.time.now - state.lastActivity > 1000
+    if (beenIdleEnough && state.facing != 'idle') {
+        player.animations.play('idle')
+        state.facing = 'idle';
+    }
 }
 
-function isJumping(jumpButton, cursors) {
+function isPressingJump(jumpButton, cursors) {
     return jumpButton.isDown || cursors.up.isDown;
 }
 

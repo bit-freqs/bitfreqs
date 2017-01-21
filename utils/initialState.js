@@ -5,6 +5,7 @@ module.exports = function(coinLocations){
     facing: "left",
     jumpTimer: 0,
     keypressTimer: 0,
-    currentAddCol: 1
+    currentAddCol: 1,
+    lastActivity: 0
   }
 }
