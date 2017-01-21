@@ -49,13 +49,13 @@ Play.prototype = {
 
 function createPlayer (game) {
   var player = game.add.sprite(25, gameHeight - 150, 'dude')
-  var animationSpeed = 2
+  var walkingAnimationSpeed = 6
 
-  player.animations.add('right', [7, 8, 9, 10, 11, 12], animationSpeed, true)
-  player.animations.add('left', [1, 2, 3, 4, 5, 6], animationSpeed, true)
-  player.animations.add('jump-right', [13], animationSpeed, true)
-  player.animations.add('jump-left', [0], animationSpeed, true)
-  player.animations.add('idle', [14, 15], animationSpeed, true)
+  player.animations.add('right', [12, 11, 10, 9, 8, 7], walkingAnimationSpeed, true)
+  player.animations.add('left', [6, 5, 4, 3, 2, 1], walkingAnimationSpeed, true)
+  player.animations.add('jump-right', [13], 1, true)
+  player.animations.add('jump-left', [0], 1, true)
+  player.animations.add('idle', [14, 15], 2, true)
 
   game.physics.p2.enable(player)
 

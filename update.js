@@ -14,7 +14,7 @@ function updatePlayer () {
   var cursors = game.input.keyboard.createCursorKeys()
   var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
   var placeBoxButton = game.input.keyboard.addKey(Phaser.Keyboard.Q)
-  var velocityAbs = 300
+  var velocityAbs = 400
 
   player.body.velocity.x = 0
 
@@ -51,7 +51,7 @@ function updatePlayer () {
 
   var canJump = checkIfCanJump(game, player)
   if (isPressingJump(jumpButton, cursors) && canJump && game.time.now > state.jumpTimer) {
-    player.body.velocity.y = -700
+    player.body.velocity.y = -800
     state.jumpTimer = game.time.now + 750
     state.jumping = true
     state.jumpedLastUpdate = true
@@ -68,6 +68,8 @@ function updatePlayer () {
   var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
   if (!idling) {
     state.lastActivity = game.time.now
+  } else {
+    player.animations.stop()
   }
 
   updateAnimation(player, game, state)
@@ -117,14 +119,13 @@ function checkIfCanJump (game, player) {
 }
 
 function tempVoiceInput (game, state) {
-    // one to nine correspond to numbers 49-57 in the ascii table
-
+  // one to nine correspond to numbers 49-57 in the ascii table
   if (game.time.now > state.keypressTimer) {
     for (var key = 48; key <= 57; key++) {
       if (game.input.keyboard.isDown(key)) {
         var nb = key - 48
         addBox(nb, game, state)
-        state.keypressTimer = game.time.now + 200
+        state.keypressTimer = game.time.now + 100
       }
     }
   }
