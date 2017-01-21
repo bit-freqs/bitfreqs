@@ -58,7 +58,7 @@ function create() {
         boxPlacer.place(location.y, location.x)
     }
 
-    var coinPlacer = new Coin(game, player);
+    var coinPlacer = new Coin(game, player, coinHit);
     for (var location of grid.coinLocations) {
         var coin = coinPlacer.place(location.y, location.x)
     }
@@ -78,4 +78,13 @@ function create() {
 
 function update() {
     return updateModule(updateParameters, state)
+}
+
+function coinHit(body1, body2) {
+    if(!body2.hasCollided) { 
+        this.destroy()
+
+        state.coinsPicked += 1
+        body2.hasCollided = true
+    }
 }
