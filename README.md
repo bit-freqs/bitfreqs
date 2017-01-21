@@ -3,6 +3,8 @@
 
 game for global game jam 17
 
+# [https://bit-freqs.github.io/bitfreqs/](Play the game!!!!!!)
+
 ## how
 
 ### install
