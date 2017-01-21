@@ -11,7 +11,12 @@ module.exports = {
     this.createWaves(game)
   }, 
   createWaves: function (game) {
-    var scale = 2.25
+    var scale = 2.5
+    //var waves = game.add.sprite(0, gameHeight - (32 * scale), 'waves')
+    //waves.animations.add('animateWaves', [4, 3, 2, 1, 0], 5, true)
+    //waves.animations.play('animateWaves')
+    //waves.scale.setTo(scale, scale)
+
     var waves = []
     waves.push(game.add.sprite(0, gameHeight - (32 * scale), 'waves'))
     waves.push(game.add.sprite(285 * scale, gameHeight - (32 * scale), 'waves'))

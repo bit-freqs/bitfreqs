@@ -25,7 +25,6 @@ states.GameOver.prototype = {
     game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background')
 
     var playLabel = createText(game, 'He Dead \n Play again!')
-    playLabel.inputEnabled = true
     playLabel.events.onInputUp.add(() => {
       playLabel.destroy()
       this.state.start('Play')
@@ -50,7 +49,6 @@ states.Win.prototype = {
     game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background')
 
     var playLabel = createText(game, 'VICTORY!! \n Play again!')
-    playLabel.inputEnabled = true
     playLabel.events.onInputUp.add(() => {
       playLabel.destroy()
       this.state.start('Play')
@@ -60,4 +58,3 @@ states.Win.prototype = {
     this.state.start('Play')
   }
 }
-
