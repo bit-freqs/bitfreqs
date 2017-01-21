@@ -1,5 +1,4 @@
 module.exports = function AbstractGrid(game) {
-
     var GRID_SIZE = 57
 
     return {

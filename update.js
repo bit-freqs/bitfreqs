@@ -1,15 +1,17 @@
+var Box = require('./box')
 var checkIfWin = require('./utils/winLogic').checkIfWin
 
 module.exports = function update(updateParameters, state) {
     var game = updateParameters.game;
     var player = updateParameters.player;
-    var cursors = updateParameters.cursors;
-    var jumpButton = updateParameters.jumpButton;
     var velocityAbs = 300;
 
     player.body.velocity.x = 0;
 
+    var cursors = game.input.keyboard.createCursorKeys();
+    var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     checkIfWin(updateParameters.gameWidth, player.x, state.totalCoins, state.coinsPicked)
+    tempVoiceInput(game, state)
 
     if (cursors.left.isDown) {
         player.body.velocity.x = -velocityAbs;
@@ -70,4 +72,24 @@ function checkIfCanJump(game, player) {
     }
 
     return result;
+}
+
+function tempVoiceInput(game, state) {
+    // one to nine correspond to numbers 49-57 in the ascii table
+    if(game.time.now > state.keypressTimer) {
+        for(var key = 48; key <= 57; key++) {
+            if(game.input.keyboard.isDown(key)) {
+                var nb = key - 48;
+                addBox(nb, game, state)
+                state.keypressTimer = game.time.now + 200;
+            }
+        }
+    }
+}
+
+function addBox(nb, game, state) {
+    var boxPlacer = new Box(game)
+    boxPlacer.place(state.currentAddCol, nb)
+
+    state.currentAddCol += 1
 }
