@@ -23,9 +23,20 @@ function updatePlayer () {
   if (endGame === 'WIN') this.gotoWin()
   if (endGame === 'GAME_OVER') this.gotoGameOver()
 
-  if (placeBoxButton.isDown && game.time.now > state.placeBoxTimer) {
-    addBox(10 - game.volume, game, state)
-    state.placeBoxTimer = game.time.now + 750
+  // if (placeBoxButton.isDown && game.time.now > state.placeBoxTimer) {
+  //   addBox(10 - game.volume, game, state)
+  //   state.placeBoxTimer = game.time.now + 750
+  // }
+
+  if (placeBoxButton.isDown && !state.qKeyDown) {
+    state.qKeyDown = true
+    state.maxVolume = game.volume
+  } else if (placeBoxButton.isDown && state.qKeyDown) {
+    state.maxVolume = game.volume > state.maxVolume ? game.volume : state.maxVolume
+  } else if (!placeBoxButton.isDown && state.qKeyDown) {
+    state.qKeyDown = false
+    addBox(9 - state.maxVolume, game, state)
+    state.maxVolume = 0
   }
 
   tempVoiceInput(game, state)
@@ -40,14 +51,12 @@ function updatePlayer () {
 
   var canJump = checkIfCanJump(game, player)
   if (isPressingJump(jumpButton, cursors) && canJump && game.time.now > state.jumpTimer) {
-    console.log('here I am')
     player.body.velocity.y = -700
     state.jumpTimer = game.time.now + 750
     state.jumping = true
     state.jumpedLastUpdate = true
   } else {
     if (!state.jumpedLastUpdate) {
-      // console.log("canjump: "+ canJump + ", state.jumping:" + state.jumping)
       if (canJump) {
         state.jumping = false
       }
@@ -55,10 +64,6 @@ function updatePlayer () {
       state.jumpedLastUpdate = false
     }
   }
-
-  // if(canJump) {
-    // state.jumping = false
-  // }
 
   var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
   if (!idling) {
