@@ -26,7 +26,7 @@ function preload() {
 
 function setState(game, action) {
   switch(action.type){
-    case 'SPLASH_SCREEN': 
+    case 'SPLASH': 
       showSplash()
       break;
     case 'START': 
@@ -42,7 +42,7 @@ var updateParameters = {};
 
 function create() {
   var bg = game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
-  setState(game, {type: 'GAME_OVER'})
+  setState(game, {type: 'SPLASH'})
   //setState(game, {type: 'START'}) //FOR DEV, SKIP SPLASH
 }
 
@@ -51,7 +51,6 @@ function update() {
 }
 
 function showSplash() {
-
   var playLabel = addCenteredText(game, 'Play!')
   playLabel.inputEnabled = true;
   playLabel.events.onInputUp.add( () => {
@@ -67,6 +66,7 @@ function showGameover() {
   playLabel.inputEnabled = true;
   playLabel.events.onInputUp.add( () => {
     playLabel.destroy()
+    deadLabel.destroy()
     setState(game, {type: 'START'} )
   })
 }
@@ -81,7 +81,6 @@ function addCenteredText(game, text, opts) {
 }
 
 function startGame() {
-  var bg = game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
 
   //  Enable p2 physics
   game.physics.startSystem(Phaser.Physics.P2JS);
