@@ -37,8 +37,9 @@ function setScreen(game, action) {
 }
 
 function preload() {
-  game.load.image('block', 'assets/block.png');
+  //game.load.image('block', 'assets/block.png');
   game.load.image('background', 'assets/background2.png');
+  game.load.spritesheet('block', 'assets/ground-sprite.png', 32, 32);
   game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32);
   game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100, 16);
 }

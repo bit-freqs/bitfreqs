@@ -6,7 +6,7 @@ module.exports = function (game, player, coinHit) {
         place: function (x, y) {
             var coin = ag.placeSprite(x, y, 'coin')
 
-            coin.animations.add('rotate', null, 20, true);
+            coin.animations.add('rotate', null, 10, true);
             coin.animations.play('rotate')
 
             coin.body.data.gravityScale = 0
