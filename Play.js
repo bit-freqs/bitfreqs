@@ -7,7 +7,6 @@ var audio = require('./audio')()
 var updateModule = require('./update')
 var grid = require('./utils/grid')
 var initialState = require('./utils/initialState')
-var playerInitialState = initialState(grid.coinLocations.length)
 
 function Play (game){
   this.player
@@ -16,10 +15,11 @@ function Play (game){
 Play.prototype = {
   preload: function() {
     var game = this.game
-    game.load.image('block', 'assets/block.png');
+    game.load.spritesheet('block', 'assets/ground-sprite.png', 32, 32);
     game.load.image('background', 'assets/background2.png');
     game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32);
     game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100, 16);
+    game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
   },
   create: function() {
     var game = this.game
@@ -61,7 +61,7 @@ function createPlayer(game) {
   player.body.fixedRotation = true;
   player.body.damping = 0.5;
 
-  player.state = playerInitialState
+  player.state = initialState(grid.coinLocations.length)
 
 
   return player

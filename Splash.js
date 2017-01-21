@@ -1,6 +1,8 @@
 var {gameHeight, gameWidth} = require('./config')
 var addCenteredText = require('./addCenteredText')
 
+var { createWebFontConfig, createText } = require('./utils/fontSetup')
+
 function Splash(game){
 
 }
@@ -12,9 +14,10 @@ Splash.prototype = {
   },
   create: function() {
     var game = this.game
+    createWebFontConfig(game)
     game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
+    var playLabel = createText(game, 'Play!')
 
-    var playLabel = addCenteredText(game, 'Play!')
     playLabel.inputEnabled = true;
     playLabel.events.onInputUp.add( () => {
       playLabel.destroy()

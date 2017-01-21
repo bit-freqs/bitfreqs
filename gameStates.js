@@ -3,6 +3,8 @@ var Splash = require('./Splash')
 var Play = require('./Play')
 var addCenteredText = require('./addCenteredText')
 
+var { createWebFontConfig, createText } = require('./utils/fontSetup')
+
 var states = {}
 module.exports = states
 
@@ -20,9 +22,10 @@ states.GameOver.prototype = {
   },
   create: function() {
     var game = this.game
+    createWebFontConfig(game)
     game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
 
-    var playLabel = addCenteredText(game, 'Game Over!\n Click to Play Again!')
+    var playLabel = createText(game, 'He Dead \n Play again!')
     playLabel.inputEnabled = true;
     playLabel.events.onInputUp.add(() => {
       playLabel.destroy()
@@ -44,9 +47,10 @@ states.Win.prototype = {
   },
   create: function() {
     var game = this.game
+    createWebFontConfig(game)
     game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
 
-    var playLabel = addCenteredText(game, 'You WIN!!!')
+    var playLabel = createText(game, 'VICTORY!! \n Play again!')
     playLabel.inputEnabled = true;
     playLabel.events.onInputUp.add(() => {
       playLabel.destroy()

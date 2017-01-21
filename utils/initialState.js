@@ -2,11 +2,13 @@ module.exports = function(numCoins){
   return {
     totalCoins: numCoins,
     coinsPicked: 0,
-    facing: "left",
+    animationStatus: "right",
     jumpTimer: 0,
     keypressTimer: 0,
     currentAddCol: 1,
     lastActivity: 0,
-    placeBoxTimer: 0
+    placeBoxTimer: 0,
+    jumping: false,
+    jumpedLastUpdate: true
   }
 }
