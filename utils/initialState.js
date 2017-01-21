@@ -10,6 +10,7 @@ module.exports = function (numCoins) {
     placeBoxTimer: 0,
     jumping: false,
     jumpedLastUpdate: true,
-    qKeyDown: false
+    qKeyDown: false,
+    maxVolume: 0
   }
 }

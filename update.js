@@ -23,9 +23,20 @@ function updatePlayer () {
   if (endGame === 'WIN') this.gotoWin()
   if (endGame === 'GAME_OVER') this.gotoGameOver()
 
-  if (placeBoxButton.isDown && game.time.now > state.placeBoxTimer) {
-    addBox(10 - game.volume, game, state)
-    state.placeBoxTimer = game.time.now + 750
+  // if (placeBoxButton.isDown && game.time.now > state.placeBoxTimer) {
+  //   addBox(10 - game.volume, game, state)
+  //   state.placeBoxTimer = game.time.now + 750
+  // }
+
+  if (placeBoxButton.isDown && !state.qKeyDown) {
+    state.qKeyDown = true
+    state.maxVolume = game.volume
+  } else if (placeBoxButton.isDown && state.qKeyDown) {
+    state.maxVolume = game.volume > state.maxVolume ? game.volume : state.maxVolume
+  } else if (!placeBoxButton.isDown && state.qKeyDown) {
+    state.qKeyDown = false
+    addBox(9 - state.maxVolume, game, state)
+    state.maxVolume = 0
   }
 
   tempVoiceInput(game, state)
