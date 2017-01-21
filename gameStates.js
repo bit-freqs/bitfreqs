@@ -17,7 +17,7 @@ states.GameOver = function (game) {
 states.GameOver.prototype = {
   preload: function () {
     var game = this.game
-    game.load.image('background', 'assets/background2.png')
+    game.load.image('background', 'assets/background-flat.png')
   },
   create: function () {
     var game = this.game
@@ -42,7 +42,7 @@ states.Win = function (game) {
 states.Win.prototype = {
   preload: function () {
     var game = this.game
-    game.load.image('background', 'assets/background2.png')
+    game.load.image('background', 'assets/background-flat.png')
   },
   create: function () {
     var game = this.game

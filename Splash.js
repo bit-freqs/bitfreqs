@@ -1,6 +1,6 @@
 var {gameHeight, gameWidth} = require('./config')
-
 var { createWebFontConfig, createText } = require('./utils/fontSetup')
+var background = require('./background')
 
 function Splash (game) {
 
@@ -9,12 +9,14 @@ function Splash (game) {
 Splash.prototype = {
   preload: function () {
     var game = this.game
-    game.load.image('background', 'assets/background2.png')
+    background.preload(game)
   },
   create: function () {
     var game = this.game
+
     createWebFontConfig(game)
-    game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background')
+    background.create(game)
+
     var playLabel = createText(game, 'Play!')
 
     playLabel.inputEnabled = true
