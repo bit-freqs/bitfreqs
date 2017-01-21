@@ -33,38 +33,17 @@ function preload() {
 var sprite;
 var updateParameters = {}
 function create() {
+    var game = createGame()
     var bg = game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
-
-    //  Enable p2 physics
-    game.physics.startSystem(Phaser.Physics.P2JS);
-    game.physics.p2.gravity.y = 2500;
-    game.physics.p2.world.defaultContactMaterial.friction = 0.3;
-    game.physics.p2.world.setGlobalStiffness(1e5);
-
-    //  Add a sprite
-    var player = game.add.sprite(0, gameHeight - 100, 'dude');
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('turn', [4], 20, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
-
-    //  Enable if for physics. This creates a default rectangular body.
-    game.physics.p2.enable(player);
-
-    player.body.fixedRotation = true;
-    player.body.damping = 0.5;
+    var player = createPlayer(game) 
 
     var boxPlacer = Box(game)
     boxPlacer.placeDefaultBoxes()
-    //for (var location of grid.boxLocations) {
-        //boxPlacer.place(location.y, location.x)
-    //}
 
     var coinPlacer = new Coin(game, player, coinHit);
     for (var location of grid.coinLocations) {
         var coin = coinPlacer.place(location.y, location.x)
     }
-
-    game.physics.p2.setImpactEvents(true);
 
     var cursors = game.input.keyboard.createCursorKeys();
     var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -75,6 +54,30 @@ function create() {
         jumpButton: jumpButton,
         game: game
     }
+}
+
+function createGame() {
+    game.physics.startSystem(Phaser.Physics.P2JS);
+    game.physics.p2.gravity.y = 2500;
+    game.physics.p2.world.defaultContactMaterial.friction = 0.3;
+    game.physics.p2.world.setGlobalStiffness(1e5);
+    game.physics.p2.setImpactEvents(true);
+
+    return game
+}
+
+function createPlayer(game) {
+    var player = game.add.sprite(0, gameHeight - 100, 'dude');
+    player.animations.add('left', [0, 1, 2, 3], 10, true);
+    player.animations.add('turn', [4], 20, true);
+    player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+    game.physics.p2.enable(player);
+
+    player.body.fixedRotation = true;
+    player.body.damping = 0.5;
+
+    return player
 }
 
 function update() {
