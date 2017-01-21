@@ -81,12 +81,15 @@ function tempVoiceInput(game, state) {
             if(game.input.keyboard.isDown(key)) {
                 var nb = key - 48;
                 addBox(nb, game, state)
-                state.keypressTimer = game.time.now + 750;
+                state.keypressTimer = game.time.now + 200;
             }
         }
     }
 }
 
-function addBox() {
+function addBox(nb, game, state) {
+    var boxPlacer = new Box(game)
+    boxPlacer.place(state.currentAddCol, nb)
 
+    state.currentAddCol += 1
 }

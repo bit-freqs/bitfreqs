@@ -4,6 +4,7 @@ module.exports = function(coinLocations){
     coinsPicked: 0,
     facing: "left",
     jumpTimer: 0,
-    keypressTimer: 0
+    keypressTimer: 0,
+    currentAddCol: 1
   }
 }
