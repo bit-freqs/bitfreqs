@@ -26,13 +26,16 @@ function preload() {
   game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 }
 
-function setState(game, action) {
+function setScreen(game, action) {
   switch(action.type){
     case 'SPLASH': 
       showSplash()
       break;
     case 'START': 
       startGame()
+      break;
+    case 'WIN': 
+      showSplash()
       break;
     case 'GAME_OVER':
       showGameover()
@@ -44,12 +47,11 @@ var updateParameters = {};
 
 function create() {
   var bg = game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
-  setState(game, {type: 'SPLASH'})
-  //setState(game, {type: 'START'}) //FOR DEV, SKIP SPLASH
+  setScreen(game, {type: 'SPLASH'})
 }
 
 function update() {
-  return updateModule(updateParameters, setState)
+  return updateModule(updateParameters, setScreen)
 }
 
 function showSplash() {
@@ -57,7 +59,7 @@ function showSplash() {
   playLabel.inputEnabled = true;
   playLabel.events.onInputUp.add( () => {
     playLabel.destroy()
-    setState(game, {type: 'START'} )
+    setScreen(game, {type: 'START'} )
   })
 }
 
@@ -69,7 +71,7 @@ function showGameover() {
   playLabel.events.onInputUp.add( () => {
     playLabel.destroy()
     deadLabel.destroy()
-    setState(game, {type: 'START'} )
+    setScreen(game, {type: 'START'} )
   })
 }
 
@@ -135,7 +137,7 @@ function startGame() {
 }
 
 function update() {
-  return updateModule(updateParameters, state, setState)
+  return updateModule(updateParameters, state, setScreen)
 }
 
 function coinHit(body1, body2) {

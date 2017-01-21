@@ -5,20 +5,21 @@ var state = {
   jumpTimer: 0
 }
 
-module.exports = function update(updateParameters, state, setState) {
+module.exports = function update(updateParameters, state, setScreen) {
   var game = updateParameters.game;
 
   if(updateParameters.player){
-    updatePlayer(updateParameters)
+    updatePlayer(updateParameters, setScreen)
   }
 }
 
-function updatePlayer(updateParameters){
+function updatePlayer(updateParameters, setScreen){
   var {player, game, cursors, jumpButton} = updateParameters
   var velocityAbs = 300;
 
   player.body.velocity.x = 0;
-  checkIfWin(updateParameters.gameWidth, player.x, state.totalCoins, state.coinsPicked)
+  var win = checkIfWin(updateParameters.gameWidth, player.x, state.totalCoins, state.coinsPicked)
+  if(win) return setScreen(game, 'WIN')
 
   if (cursors.left.isDown) {
     player.body.velocity.x = -velocityAbs;
