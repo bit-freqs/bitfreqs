@@ -7,7 +7,7 @@
     "start": "budo . -d --serve bundle.js --live",
     "build": "browserify . -o bundle.js -g uglifyify",
     "test": "browserify test/*.js | node | tap-spec",
-    "dist": "mkdir -p dist && bash -c 'cp *.{js,html,css} dist' && cp -r assets dist",
+    "dist": "mkdir -p dist && bash -c 'cp *.{html,css} dist && cp -r assets dist && cp bundle.js dist'",
     "push": "gh-pages -d dist",
     "deploy": "npm run build && npm run dist && npm run push"
   },
