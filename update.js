@@ -28,45 +28,59 @@ function updatePlayer(updateParameters, setScreen) {
  
   tempVoiceInput(game, state)
 
-  var jumping = !checkIfCanJump(game, player)
-  var facingLeft = state.facing == 'left'
-  var facingRight = state.facing == 'right'
-
   if (cursors.left.isDown) {
     player.body.velocity.x = -velocityAbs;
-    if(!jumping) { 
-      player.animations.play('left');
-    } else {
-      player.animations.play('jump-left');
-    }
-
-    state.facing = 'left';
+    state.animationstatus = 'left';
   } else if (cursors.right.isDown) {
     player.body.velocity.x = velocityAbs;
-    if(!jumping) { 
-      player.animations.play('right');
-    } else {
-      player.animations.play('jump-right');
-    }
-
-    state.facing = 'right';
+    state.animationstatus = 'right';
   }
 
-  if (isPressingJump(jumpButton, cursors) && !jumping && game.time.now > state.jumpTimer) {
+  var canJump = checkIfCanJump(game, player)
+  if (isPressingJump(jumpButton, cursors) && canJump && game.time.now > state.jumpTimer) {
+    console.log('here I am')
     player.body.velocity.y = -700
     state.jumpTimer = game.time.now + 750
+    state.jumping = true
+    state.jumpedLastUpdate = true
+  } else {
+    if(!state.jumpedLastUpdate) {
+      //console.log("canjump: "+ canJump + ", state.jumping:" + state.jumping)
+      if (canJump) {
+        state.jumping = false
+      }
+    } else { 
+      state.jumpedLastUpdate = false
+    }
   }
+
+  //if(canJump) {
+    //state.jumping = false
+  //}
 
   var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
   if(!idling) {
     state.lastActivity = game.time.now
   }
 
+  updateAnimation(player, game, state)
+}
+
+function updateAnimation(player, game, state) {
+  var animation = 'left'
   var beenIdleEnough = game.time.now - state.lastActivity > 1000
-  if (beenIdleEnough && state.facing != 'idle') {
-    player.animations.play('idle')
-    state.facing = 'idle';
+  if (beenIdleEnough) {
+    animation = 'idle'
+  } else { 
+    var facing = state.animationstatus == 'left' ? 'left' : 'right'
+    if(state.jumping === true) {
+      animation = 'jump-' + facing
+    } else {
+      animation = facing
+    }
   }
+
+  player.animations.play(animation)
 }
 
 function isPressingJump(jumpButton, cursors) {
