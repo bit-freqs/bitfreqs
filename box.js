@@ -9,6 +9,11 @@ module.exports = function (game) {
 
             sprite.body.static = true;
             sprite.body.setMaterial(ag.material);
+        },
+
+        placeDefaultBoxes: function() {
+            this.place(0, 9);
+            this.place(20, 9);
         }
     }
 
