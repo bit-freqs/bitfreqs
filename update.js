@@ -14,8 +14,8 @@ function updatePlayer(updateParameters, setScreen){
   var velocityAbs = 300;
 
   player.body.velocity.x = 0;
-  var win = checkIfWin(gameWidth, gameHeight, player.x, player.y, state.totalCoins, state.coinsPicked)
-  if(win) return setScreen(game, {type: 'WIN'})
+  var endGame = checkIfWin(gameWidth, gameHeight, player.x, player.y, state.totalCoins, state.coinsPicked)
+  if (endGame) return setScreen(game, endGame.payload)
 
   if (cursors.left.isDown) {
     player.body.velocity.x = -velocityAbs;
