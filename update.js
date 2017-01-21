@@ -1,3 +1,4 @@
+var Box = require('./box')
 var checkIfWin = require('./utils/winLogic').checkIfWin
 
 module.exports = function update(updateParameters, setScreen) {
@@ -8,51 +9,61 @@ module.exports = function update(updateParameters, setScreen) {
   }
 }
 
-function updatePlayer(updateParameters, setScreen){
-  var { player, game, cursors, jumpButton, gameWidth, gameHeight } = updateParameters
+function updatePlayer(updateParameters, setScreen) {
+  var { player, game, gameWidth, gameHeight } = updateParameters
   var state = player.state
+  var cursors = game.input.keyboard.createCursorKeys();
+  var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   var velocityAbs = 300;
 
   player.body.velocity.x = 0;
   var endGame = checkIfWin(gameWidth, gameHeight, player.x, player.y, state.totalCoins, state.coinsPicked)
   if (endGame) return setScreen(game, endGame.payload)
 
+  tempVoiceInput(game, state)
+
+  var jumping = !checkIfCanJump(game, player)
+  var facingLeft = state.facing == 'left'
+  var facingRight = state.facing == 'right'
+
   if (cursors.left.isDown) {
     player.body.velocity.x = -velocityAbs;
-
-    if (state.facing != 'left') {
+    if(!jumping) { 
       player.animations.play('left');
-      state.facing = 'left';
+    } else {
+      player.animations.play('jump-left');
     }
+
+    state.facing = 'left';
   } else if (cursors.right.isDown) {
     player.body.velocity.x = velocityAbs;
-
-    if (state.facing != 'right') {
+    if(!jumping) { 
       player.animations.play('right');
-      state.facing = 'right';
+    } else {
+      player.animations.play('jump-right');
     }
-  } else {
-    if (state.facing != 'idle') {
-      player.animations.stop();
 
-      if (state.facing == 'left') {
-        player.frame = 0;
-      } else {
-        player.frame = 5;
-      }
-
-      state.facing = 'idle';
-    }
+    state.facing = 'right';
   }
 
-  if (isJumping(jumpButton, cursors) && checkIfCanJump(game, player)
-    && game.time.now > state.jumpTimer) {
-      player.body.velocity.y = -700
-      state.jumpTimer = game.time.now + 750
+  if (isPressingJump(jumpButton, cursors) && !jumping && game.time.now > state.jumpTimer) {
+    player.body.velocity.y = -700
+    state.jumpTimer = game.time.now + 750
+  }
+
+  var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
+  if(!idling) {
+    state.lastActivity = game.time.now
+  }
+
+  var beenIdleEnough = game.time.now - state.lastActivity > 1000
+  if (beenIdleEnough && state.facing != 'idle') {
+    player.animations.play('idle')
+    state.facing = 'idle';
   }
 }
 
-function isJumping(jumpButton, cursors) {
+function isPressingJump(jumpButton, cursors) {
   return jumpButton.isDown || cursors.up.isDown;
 }
 
@@ -76,4 +87,24 @@ function checkIfCanJump(game, player) {
   }
 
   return result;
+}
+
+function tempVoiceInput(game, state) {
+    // one to nine correspond to numbers 49-57 in the ascii table
+    if(game.time.now > state.keypressTimer) {
+        for(var key = 48; key <= 57; key++) {
+            if(game.input.keyboard.isDown(key)) {
+                var nb = key - 48;
+                addBox(nb, game, state)
+                state.keypressTimer = game.time.now + 200;
+            }
+        }
+    }
+}
+
+function addBox(nb, game, state) {
+    var boxPlacer = new Box(game)
+    boxPlacer.place(state.currentAddCol, nb)
+
+    state.currentAddCol += 1
 }
