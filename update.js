@@ -1,15 +1,13 @@
 var checkIfWin = require('./utils/winLogic').checkIfWin
 
 module.exports = function update(updateParameters, state) {
-    var game = updateParameters.game;
-    var player = updateParameters.player;
-    var cursors = updateParameters.cursors;
-    var jumpButton = updateParameters.jumpButton;
+    var { game, player, cursors, jumpButton, gameWidth, gameHeight } = updateParameters
+    var { totalCoins, coinsPicked } = state
     var velocityAbs = 300;
 
     player.body.velocity.x = 0;
 
-    checkIfWin(updateParameters.gameWidth, player.x, state.totalCoins, state.coinsPicked)
+    checkIfWin(gameWidth, gameHeight, player.x, player.y, totalCoins, coinsPicked)
 
     if (cursors.left.isDown) {
         player.body.velocity.x = -velocityAbs;

@@ -55,9 +55,9 @@ function create() {
 
     var boxPlacer = Box(game)
     boxPlacer.placeDefaultBoxes()
-    for (var location of grid.boxLocations) {
-        boxPlacer.place(location.y, location.x)
-    }
+    // for (var location of grid.boxLocations) {
+    //     boxPlacer.place(location.y, location.x)
+    // }
 
     var coinPlacer = new Coin(game, player, coinHit);
     for (var location of grid.coinLocations) {
