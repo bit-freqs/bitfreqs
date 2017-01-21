@@ -1,34 +1,33 @@
 var {gameHeight, gameWidth} = require('./config')
-var addCenteredText = require('./addCenteredText')
 
 var { createWebFontConfig, createText } = require('./utils/fontSetup')
 
-function Splash(game){
+function Splash (game) {
 
 }
 
 Splash.prototype = {
-  preload: function() {
+  preload: function () {
     var game = this.game
-    game.load.image('background', 'assets/background2.png');
+    game.load.image('background', 'assets/background2.png')
   },
-  create: function() {
+  create: function () {
     var game = this.game
     createWebFontConfig(game)
-    game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
+    game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background')
     var playLabel = createText(game, 'Play!')
 
-    playLabel.inputEnabled = true;
-    playLabel.events.onInputUp.add( () => {
+    playLabel.inputEnabled = true
+    playLabel.events.onInputUp.add(() => {
       playLabel.destroy()
       this.gotoPlay()
     })
   },
-  update: function() {
-    
+  update: function () {
+
   },
-  gotoPlay: function() {
-    this.state.start('Play') 
+  gotoPlay: function () {
+    this.state.start('Play')
   }
 }
 

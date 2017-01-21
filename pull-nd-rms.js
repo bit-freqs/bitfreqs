@@ -1,6 +1,5 @@
 var pull = require('pull-stream')
 var zeros = require('zeros')
-var nd = require('ndarray')
 var ops = require('ndarray-ops')
 var fill = require('ndarray-fill')
 

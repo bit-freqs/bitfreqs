@@ -1,8 +1,8 @@
-module.exports = function(numCoins){
+module.exports = function (numCoins) {
   return {
     totalCoins: numCoins,
     coinsPicked: 0,
-    animationStatus: "right",
+    animationStatus: 'right',
     jumpTimer: 0,
     keypressTimer: 0,
     currentAddCol: 1,

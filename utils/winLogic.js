@@ -3,14 +3,14 @@ module.exports = {
   checkIfWin
 }
 
-function pickedAllCoins (totalCoins, coinsPicked){
-  if (totalCoins == coinsPicked){
+function pickedAllCoins (totalCoins, coinsPicked) {
+  if (totalCoins === coinsPicked) {
     return true
   }
   return false
 }
 
-function checkIfWin (gameWidth, gameHeight, playerX, playerY, totalCoins, coinsPicked){
+function checkIfWin (gameWidth, gameHeight, playerX, playerY, totalCoins, coinsPicked) {
   var playerAtEndOfScreen = playerX >= gameWidth - 50
   var playerPickedAllCoins = pickedAllCoins(totalCoins, coinsPicked)
   var playerOnGround = playerY >= gameHeight - 50

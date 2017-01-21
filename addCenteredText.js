@@ -1,6 +1,6 @@
 var {gameHeight, gameWidth} = require('./config')
 
-module.exports = function addCenteredText(game, text, opts) {
+module.exports = function addCenteredText (game, text, opts) {
   opts = opts || {}
   opts = Object.assign({ font: '100px Arial', fill: '#fff', offsetX: 0, offsetY: 0 }, opts)
   var label = game.add.text(0, 0, text, opts)
