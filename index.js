@@ -59,16 +59,12 @@ function create() {
         //boxPlacer.place(location.y, location.x)
     //}
 
-    var coinPlacer = new Coin(game);
+    var coinPlacer = new Coin(game, player, coinHit);
     for (var location of grid.coinLocations) {
         var coin = coinPlacer.place(location.y, location.x)
     }
 
-    //  Here is the contact material. It's a combination of 2 materials, so whenever shapes with
-    //  those 2 materials collide it uses the following settings.
-    var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
-    var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, AbstractGrid.worldMaterial, { friction: 0.0 });
-    var groundBoxesCM = game.physics.p2.createContactMaterial(AbstractGrid.worldMaterial, AbstractGrid.material, { friction: 0.6 });
+    game.physics.p2.setImpactEvents(true);
 
     var cursors = game.input.keyboard.createCursorKeys();
     var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -83,4 +79,13 @@ function create() {
 
 function update() {
     return updateModule(updateParameters, state)
+}
+
+function coinHit(body1, body2) {
+    if(!body2.hasCollided) { 
+        this.destroy()
+
+        state.coinsPicked += 1
+        body2.hasCollided = true
+    }
 }
