@@ -27,43 +27,43 @@ function updatePlayer(updateParameters, setScreen) {
   var facingRight = state.facing == 'right'
 
   if (cursors.left.isDown) {
-      player.body.velocity.x = -velocityAbs;
-      if(!jumping) { 
-          player.animations.play('left');
-          state.facing = 'left';
-      } else {
-          player.animations.play('jump-left');
-      }
+    player.body.velocity.x = -velocityAbs;
+    if(!jumping) { 
+      player.animations.play('left');
+      state.facing = 'left';
+    } else {
+      player.animations.play('jump-left');
+    }
   } else if (cursors.right.isDown) {
-      player.body.velocity.x = velocityAbs;
-      if(!jumping) { 
-          player.animations.play('right');
-      } else {
-          player.animations.play('jump-right');
-      }
+    player.body.velocity.x = velocityAbs;
+    if(!jumping) { 
+      player.animations.play('right');
+    } else {
+      player.animations.play('jump-right');
+    }
 
-      state.facing = 'right';
+    state.facing = 'right';
   }
 
   if (isPressingJump(jumpButton, cursors) && !jumping && game.time.now > state.jumpTimer) {
-      player.body.velocity.y = -700
-      state.jumpTimer = game.time.now + 750
+    player.body.velocity.y = -700
+    state.jumpTimer = game.time.now + 750
   }
 
   var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
   if(!idling) {
-      state.lastActivity = game.time.now
+    state.lastActivity = game.time.now
   }
 
   var beenIdleEnough = game.time.now - state.lastActivity > 1000
   if (beenIdleEnough && state.facing != 'idle') {
-      player.animations.play('idle')
-      state.facing = 'idle';
+    player.animations.play('idle')
+    state.facing = 'idle';
   }
 }
 
 function isPressingJump(jumpButton, cursors) {
-    return jumpButton.isDown || cursors.up.isDown;
+  return jumpButton.isDown || cursors.up.isDown;
 }
 
 var yAxis = p2.vec2.fromValues(0, 1);
