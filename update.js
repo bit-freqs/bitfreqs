@@ -30,10 +30,11 @@ function updatePlayer(updateParameters, setScreen) {
     player.body.velocity.x = -velocityAbs;
     if(!jumping) { 
       player.animations.play('left');
-      state.facing = 'left';
     } else {
       player.animations.play('jump-left');
     }
+
+    state.facing = 'left';
   } else if (cursors.right.isDown) {
     player.body.velocity.x = velocityAbs;
     if(!jumping) { 

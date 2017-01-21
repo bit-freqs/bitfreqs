@@ -40,7 +40,7 @@ function preload() {
   game.load.image('block', 'assets/block.png');
   game.load.image('background', 'assets/background2.png');
   game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32);
-  game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100);
+  game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100, 16);
 }
 
 var updateParameters = {}
@@ -119,7 +119,7 @@ function createPlayer(game) {
 
   player.animations.add('right', [7, 8, 9, 10, 11, 12], animationSpeed, true);
   player.animations.add('left', [1, 2, 3, 4, 5, 6], animationSpeed, true);
-  player.animations.add('jump-right', [16], animationSpeed, true);
+  player.animations.add('jump-right', [13], animationSpeed, true);
   player.animations.add('jump-left', [0], animationSpeed, true);
   player.animations.add('idle', [14, 15], animationSpeed, true);
 
