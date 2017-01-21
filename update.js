@@ -1,10 +1,5 @@
 
-var state = {
-    facing: "left",
-    jumpTimer: 0
-}
-
-module.exports = function update(updateParameters) {
+module.exports = function update(updateParameters, state) {
     var game = updateParameters.game;
     var player = updateParameters.player;
     var cursors = updateParameters.cursors;
@@ -41,9 +36,9 @@ module.exports = function update(updateParameters) {
         }
     }
 
-    if (isJumping(jumpButton, cursors) && checkIfCanJump(game, player) 
+    if (isJumping(jumpButton, cursors) && checkIfCanJump(game, player)
             && game.time.now > state.jumpTimer) {
-        player.body.velocity.y = -700 
+        player.body.velocity.y = -700
         state.jumpTimer = game.time.now + 750
     }
 }

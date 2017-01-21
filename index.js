@@ -82,5 +82,5 @@ function create() {
 }
 
 function update() {
-    return updateModule(updateParameters)
+    return updateModule(updateParameters, state)
 }
