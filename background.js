@@ -7,7 +7,6 @@ module.exports = {
   }, 
   create: function (game) {
     var bg = game.add.image(0, 0, 'background')
-    bg.scale.setTo(5, 5);
     this.createWaves(game)
   }, 
   createWaves: function (game) {
