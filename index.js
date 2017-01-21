@@ -30,7 +30,6 @@ function preload() {
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 }
 
-var sprite;
 var updateParameters = {}
 function create() {
     var game = createGame()

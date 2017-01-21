@@ -3,6 +3,7 @@ module.exports = function(coinLocations){
     totalCoins: coinLocations.length,
     coinsPicked: 0,
     facing: "left",
-    jumpTimer: 0
+    jumpTimer: 0,
+    keypressTimer: 0
   }
 }
