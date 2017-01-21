@@ -1,56 +1,65 @@
 var Box = require('./box')
 var checkIfWin = require('./utils/winLogic').checkIfWin
 
-module.exports = function update(updateParameters, state) {
-    var game = updateParameters.game;
-    var player = updateParameters.player;
-    var velocityAbs = 300;
+module.exports = function update(updateParameters, setScreen) {
+  var game = updateParameters.game;
 
-    player.body.velocity.x = 0;
+  if(updateParameters.player){
+    updatePlayer(updateParameters, setScreen)
+  }
+}
 
-    var cursors = game.input.keyboard.createCursorKeys();
-    var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    checkIfWin(updateParameters.gameWidth, player.x, state.totalCoins, state.coinsPicked)
-    tempVoiceInput(game, state)
+function updatePlayer(updateParameters, setScreen) {
+  var { player, game, gameWidth, gameHeight } = updateParameters
+  var state = player.state
+  var cursors = game.input.keyboard.createCursorKeys();
+  var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  var velocityAbs = 300;
 
-    var jumping = !checkIfCanJump(game, player)
-    var facingLeft = state.facing == 'left'
-    var facingRight = state.facing == 'right'
+  player.body.velocity.x = 0;
+  var win = checkIfWin(gameWidth, gameHeight, player.x, player.y, state.totalCoins, state.coinsPicked)
+  if(win) return setScreen(game, {type: 'WIN'})
 
-    if (cursors.left.isDown) {
-        player.body.velocity.x = -velocityAbs;
-        if(!jumping) { 
-            player.animations.play('left');
-            state.facing = 'left';
-        } else {
-            player.animations.play('jump-left');
-        }
-    } else if (cursors.right.isDown) {
-        player.body.velocity.x = velocityAbs;
-        if(!jumping) { 
-            player.animations.play('right');
-        } else {
-            player.animations.play('jump-right');
-        }
+  tempVoiceInput(game, state)
 
-        state.facing = 'right';
-    }
+  var jumping = !checkIfCanJump(game, player)
+  var facingLeft = state.facing == 'left'
+  var facingRight = state.facing == 'right'
 
-    if (isPressingJump(jumpButton, cursors) && !jumping && game.time.now > state.jumpTimer) {
-        player.body.velocity.y = -700
-        state.jumpTimer = game.time.now + 750
-    }
+  if (cursors.left.isDown) {
+      player.body.velocity.x = -velocityAbs;
+      if(!jumping) { 
+          player.animations.play('left');
+          state.facing = 'left';
+      } else {
+          player.animations.play('jump-left');
+      }
+  } else if (cursors.right.isDown) {
+      player.body.velocity.x = velocityAbs;
+      if(!jumping) { 
+          player.animations.play('right');
+      } else {
+          player.animations.play('jump-right');
+      }
 
-    var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
-    if(!idling) {
-        state.lastActivity = game.time.now
-    }
+      state.facing = 'right';
+  }
 
-    var beenIdleEnough = game.time.now - state.lastActivity > 1000
-    if (beenIdleEnough && state.facing != 'idle') {
-        player.animations.play('idle')
-        state.facing = 'idle';
-    }
+  if (isPressingJump(jumpButton, cursors) && !jumping && game.time.now > state.jumpTimer) {
+      player.body.velocity.y = -700
+      state.jumpTimer = game.time.now + 750
+  }
+
+  var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
+  if(!idling) {
+      state.lastActivity = game.time.now
+  }
+
+  var beenIdleEnough = game.time.now - state.lastActivity > 1000
+  if (beenIdleEnough && state.facing != 'idle') {
+      player.animations.play('idle')
+      state.facing = 'idle';
+  }
 }
 
 function isPressingJump(jumpButton, cursors) {
@@ -59,24 +68,24 @@ function isPressingJump(jumpButton, cursors) {
 
 var yAxis = p2.vec2.fromValues(0, 1);
 function checkIfCanJump(game, player) {
-    var result = false;
-    for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++) {
-        var c = game.physics.p2.world.narrowphase.contactEquations[i];
+  var result = false;
+  for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++) {
+    var c = game.physics.p2.world.narrowphase.contactEquations[i];
 
-        if (c.bodyA === player.body.data || c.bodyB === player.body.data) {
-            var d = p2.vec2.dot(c.normalA, yAxis);
+    if (c.bodyA === player.body.data || c.bodyB === player.body.data) {
+      var d = p2.vec2.dot(c.normalA, yAxis);
 
-            if (c.bodyA === player.body.data) {
-                d *= -1;
-            }
+      if (c.bodyA === player.body.data) {
+        d *= -1;
+      }
 
-            if (d > 0.5) {
-                result = true;
-            }
-        }
+      if (d > 0.5) {
+        result = true;
+      }
     }
+  }
 
-    return result;
+  return result;
 }
 
 function tempVoiceInput(game, state) {
