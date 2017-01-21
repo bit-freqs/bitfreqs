@@ -8,8 +8,8 @@ game for global game jam 17
 ### install
 
 ```
-git clone https://github.com/pietgeursen/bitFreqs
-cd 
+git clone https://github.com/bit-freqs/bitfreqs.git
+cd
 npm install
 ```
 

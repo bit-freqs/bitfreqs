@@ -28,24 +28,25 @@ function preload() {
 
 function setScreen(game, action) {
   switch(action.type){
-    case 'SPLASH': 
+    case 'SPLASH':
       showSplash()
       break;
-    case 'START': 
+    case 'START':
       startGame()
       break;
-    case 'WIN': 
+    case 'WIN':
       showSplash()
       break;
     case 'GAME_OVER':
       showGameover()
       break;
-  } 
+  }
 }
 
 var updateParameters = {};
 
 function create() {
+
   var bg = game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
   setScreen(game, {type: 'SPLASH'})
 }
