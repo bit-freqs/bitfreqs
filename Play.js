@@ -17,6 +17,7 @@ Play.prototype = {
     var game = this.game
     game.load.spritesheet('block', 'assets/ground-sprite.png', 32, 32)
     game.load.image('background', 'assets/background2.png')
+    game.load.image('restartbutton', 'assets/restart.PNG')
     game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32)
     game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100, 16)
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
@@ -70,6 +71,7 @@ function createPlayer (game) {
 function createGame (game) {
   game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background')
   game.add.sprite(0, gameHeight - 32, 'waves')
+  game.add.button(750, 75, 'restartbutton', restartButton, this)
   game.physics.startSystem(Phaser.Physics.P2JS)
   game.physics.p2.gravity.y = 2500
   game.physics.p2.world.defaultContactMaterial.friction = 0.3
@@ -91,6 +93,10 @@ function createCoinHit (player) {
       body2.hasCollided = true
     }
   }
+}
+
+function restartButton () {
+  game.state.start('Play')
 }
 
 module.exports = Play
