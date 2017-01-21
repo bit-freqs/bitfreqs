@@ -110,6 +110,11 @@ function createGame() {
     game.physics.p2.world.setGlobalStiffness(1e5);
     game.physics.p2.setImpactEvents(true);
 
+    pull(
+      audio(),
+      pull.drain(vol => game.volume = vol)
+    )
+
     return game
 }
 
@@ -129,6 +134,7 @@ function createPlayer(game) {
   player.body.damping = 0.5;
 
   player.state = playerInitialState
+
 
   return player
 }

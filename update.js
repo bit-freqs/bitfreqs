@@ -14,12 +14,18 @@ function updatePlayer(updateParameters, setScreen) {
   var state = player.state
   var cursors = game.input.keyboard.createCursorKeys();
   var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  var placeBoxButton = game.input.keyboard.addKey(Phaser.Keyboard.Q);
   var velocityAbs = 300;
 
   player.body.velocity.x = 0;
   var endGame = checkIfWin(gameWidth, gameHeight, player.x, player.y, state.totalCoins, state.coinsPicked)
   if (endGame) return setScreen(game, endGame.payload)
 
+  if (placeBoxButton.isDown && game.time.now > state.placeBoxTimer) {
+    addBox(10 - game.volume, game, state)
+    state.placeBoxTimer = game.time.now + 750
+  }
+ 
   tempVoiceInput(game, state)
 
   var jumping = !checkIfCanJump(game, player)
@@ -91,6 +97,7 @@ function checkIfCanJump(game, player) {
 
 function tempVoiceInput(game, state) {
     // one to nine correspond to numbers 49-57 in the ascii table
+    
     if(game.time.now > state.keypressTimer) {
         for(var key = 48; key <= 57; key++) {
             if(game.input.keyboard.isDown(key)) {
