@@ -25,7 +25,7 @@ Play.prototype = {
   },
   create: function () {
     var game = this.game
-    createGame(game)
+    createGame.bind(this)(game)
 
     var player = this.player = createPlayer(game)
 
@@ -42,6 +42,9 @@ Play.prototype = {
   },
   gotoWin: function () {
     this.state.start('Win')
+  },
+  gotoPlay: function () {
+    this.state.start('Play')
   },
   gotoGameOver: function () {
     this.state.start('GameOver')
@@ -71,7 +74,7 @@ function createPlayer (game) {
 function createGame (game) {
   game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background')
   game.add.sprite(0, gameHeight - 32, 'waves')
-  game.add.button(750, 75, 'restartbutton', restartButton, this)
+  game.add.button(750, 75, 'restartbutton', () => this.gotoPlay(), this)
   game.physics.startSystem(Phaser.Physics.P2JS)
   game.physics.p2.gravity.y = 2500
   game.physics.p2.world.defaultContactMaterial.friction = 0.3
@@ -95,8 +98,5 @@ function createCoinHit (player) {
   }
 }
 
-function restartButton () {
-  game.state.start('Play')
-}
 
 module.exports = Play
