@@ -29,7 +29,7 @@ function setScreen(game, action) {
       startGame()
       break;
     case 'WIN':
-      showSplash()
+      showWin()
       break;
     case 'GAME_OVER':
       showGameover()
@@ -57,7 +57,15 @@ function update() {
 
 function showSplash() {
   var playLabel = createText(game, 'Play!')
-    playLabel.events.onInputUp.add( () => {
+  playLabel.events.onInputUp.add( () => {
+    playLabel.destroy()
+    setScreen(game, {type: 'START'} )
+  })
+}
+
+function showWin() {
+  var playLabel = createText(game, 'VICTORY!! \n Play again!')
+  playLabel.events.onInputUp.add( () => {
     playLabel.destroy()
     setScreen(game, {type: 'START'} )
   })
