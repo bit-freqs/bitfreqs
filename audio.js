@@ -18,6 +18,9 @@ module.exports = function () {
       decimate(10),
       rms,
       pull.map(unpack),
+      pull.map(num => num * 10),
+      pull.map(num => num >= 10 ? 10 : num),
+      pull.map(num => num.toFixed())
     )
     deferred.resolve(src)
   })

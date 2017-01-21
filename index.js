@@ -8,7 +8,7 @@ var AbstractGrid = require('./abstractGrid')
 var Coin = require('./coin')
 var Box = require('./box')
 var audio = require('./audio')
-
+var { createWebFontConfig, createText } = require('./utils/fontSetup')
 
 var grid = require('./utils/grid')
 var updateModule = require('./update')
@@ -18,6 +18,7 @@ var gameHeight = 750
 var gameWidth = 1200
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 var playerInitialState = initialState(grid.coinLocations.length)
+var WebFontConfig = createWebFontConfig(game)
 
 function setScreen(game, action) {
   switch(action.type){
@@ -42,6 +43,7 @@ function preload() {
   game.load.spritesheet('block', 'assets/ground-sprite.png', 32, 32);
   game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32);
   game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100, 16);
+  game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
 }
 
 var updateParameters = {}
@@ -55,38 +57,25 @@ function update() {
 }
 
 function showSplash() {
-  var playLabel = addCenteredText(game, 'Play!')
-  playLabel.inputEnabled = true;
-  playLabel.events.onInputUp.add( () => {
+  var playLabel = createText(game, 'Play!')
+    playLabel.events.onInputUp.add( () => {
     playLabel.destroy()
     setScreen(game, {type: 'START'} )
   })
 }
 
 function showGameover() {
-  var deadLabel = addCenteredText(game, 'He Dead', {offsetY: -90})
-  var playLabel = addCenteredText(game, 'Play again!')
-  playLabel.inputEnabled = true;
+  var playLabel = createText(game, 'He Dead \n Play again!')
   playLabel.events.onInputUp.add( () => {
     playLabel.destroy()
-    deadLabel.destroy()
     setScreen(game, {type: 'START'} )
   })
-}
-
-function addCenteredText(game, text, opts) {
-  opts = opts || {}
-  opts = Object.assign({ font: '100px Arial', fill: '#fff', offsetX: 0, offsetY: 0 }, opts)
-  var label = game.add.text(0, 0, text, opts)
-  label.x = (gameWidth / 2) - label.width / 2 + opts.offsetX
-  label.y = gameHeight / 2 + opts.offsetY
-  return label
 }
 
 function startGame() {
   var game = createGame()
   var bg = game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background');
-  var player = createPlayer(game) 
+  var player = createPlayer(game)
 
   var boxPlacer = Box(game)
   boxPlacer.placeDefaultBoxes()
@@ -111,6 +100,11 @@ function createGame() {
     game.physics.p2.world.setGlobalStiffness(1e5);
     game.physics.p2.setImpactEvents(true);
 
+    pull(
+      audio(),
+      pull.drain(vol => game.volume = vol)
+    )
+
     return game
 }
 
@@ -130,6 +124,7 @@ function createPlayer(game) {
   player.body.damping = 0.5;
 
   player.state = playerInitialState
+
 
   return player
 }
