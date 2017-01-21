@@ -6,7 +6,7 @@
   "scripts": {
     "start": "budo . -d --serve bundle.js --live",
     "build": "browserify . -o bundle.js -g uglifyify",
-    "test": "browserify test/*.js | node | tap-spec",
+    "test": "browserify test/index.js | node | tap-spec",
     "dist": "mkdir -p dist && bash -c 'cp *.{js,html,css} dist'",
     "push": "gh-pages -d dist",
     "deploy": "npm run build && npm run dist && npm run push"
@@ -46,7 +46,6 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.5.1",
     "uglifyify": "^3.0.1",
-    "watchify": "^3.7.0",
-    "zeros": "^1.0.0"
+    "watchify": "^3.7.0"
   }
 }
