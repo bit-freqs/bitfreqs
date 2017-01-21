@@ -1,5 +1,6 @@
 module.exports = {
-  createWebFontConfig
+  createWebFontConfig,
+  createText
 }
 
 function createWebFontConfig(game){
@@ -16,49 +17,27 @@ function createWebFontConfig(game){
   }
 }
 
-var text = null;
-var grd;
 
-function create() {
+function createText(game, textContent) {
 
-    game.stage.setBackgroundColor(0x2d2d2d);
+  var text = game.add.text(game.world.centerX, game.world.centerY, textContent);
+  text.anchor.setTo(0.5);
 
-}
+  text.font = 'Press Start 2P'
+  text.fontSize = 60;
 
-function createText() {
+  //  x0, y0 - x1, y1
+  var grd = text.context.createLinearGradient(0, 0, 0, text.canvas.height);
+  grd.addColorStop(0, '#8ED6FF');
+  grd.addColorStop(1, '#004CB3');
+  text.fill = grd;
 
-    text = game.add.text(game.world.centerX, game.world.centerY, "- phaser -\nrocking with\ngoogle web fonts");
-    text.anchor.setTo(0.5);
+  text.align = 'center';
+  text.stroke = '#000000';
+  text.strokeThickness = 2;
+  text.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
 
-    text.font = 'Press Start 2P'
-    text.fontSize = 60;
+  text.inputEnabled = true;
 
-    //  x0, y0 - x1, y1
-    grd = text.context.createLinearGradient(0, 0, 0, text.canvas.height);
-    grd.addColorStop(0, '#8ED6FF');
-    grd.addColorStop(1, '#004CB3');
-    text.fill = grd;
-
-    text.align = 'center';
-    text.stroke = '#000000';
-    text.strokeThickness = 2;
-    text.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
-
-    text.inputEnabled = true;
-
-    text.events.onInputOver.add(over, this);
-    text.events.onInputOut.add(out, this);
-
-}
-
-function out() {
-
-    text.fill = grd;
-
-}
-
-function over() {
-
-    text.fill = '#ff00ff';
-
+  return text
 }
