@@ -2,16 +2,26 @@ window.PIXI = require('phaser/build/custom/pixi')
 window.p2 = require('phaser/build/custom/p2')
 window.Phaser = require('phaser/build/custom/phaser-split')
 
+var pull = require('pull-stream')
+
 var AbstractGrid = require('./abstractGrid')
 var Coin = require('./coin')
 var Box = require('./box')
+var audio = require('./audio')
+
+pull(
+  audio(),
+  pull.log()
+)
 
 var grid = require('./utils/grid')
 var updateModule = require('./update')
+var initialState = require('./utils/initialState')
 
 var gameHeight = 750
 var gameWidth = 1200
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+var state = initialState(grid.coinLocations)
 
 function preload() {
     game.load.image('block', 'assets/block.png');
@@ -67,5 +77,5 @@ function create() {
 }
 
 function update() {
-    return updateModule(updateParameters)
+    return updateModule(updateParameters, state)
 }
