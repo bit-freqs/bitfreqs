@@ -20,6 +20,7 @@ Play.prototype = {
     game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32)
     game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100, 16)
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
+    game.load.image('waves', 'assets/wave-sprite-attempt.png')
   },
   create: function () {
     var game = this.game
@@ -68,6 +69,7 @@ function createPlayer (game) {
 
 function createGame (game) {
   game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background')
+  game.add.sprite(0, gameHeight - 32, 'waves')
   game.physics.startSystem(Phaser.Physics.P2JS)
   game.physics.p2.gravity.y = 2500
   game.physics.p2.world.defaultContactMaterial.friction = 0.3
