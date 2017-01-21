@@ -44,13 +44,8 @@ function create() {
         var coin = coinPlacer.place(location.y, location.x)
     }
 
-    var cursors = game.input.keyboard.createCursorKeys();
-    var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
     updateParameters = {
         player: player,
-        cursors: cursors,
-        jumpButton: jumpButton,
         gameWidth: gameWidth,
         gameHeight: gameHeight,
         game: game
