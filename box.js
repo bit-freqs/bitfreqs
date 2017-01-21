@@ -1,7 +1,7 @@
 var AbstractGrid = require('./abstractGrid')
 
 module.exports = function (game) {
-  var ag = new AbstractGrid(game);
+  var ag = new AbstractGrid(game)
 
   return {
     place: function (x, y) {
@@ -14,9 +14,9 @@ module.exports = function (game) {
       box.body.setMaterial(ag.material)
     },
 
-    placeDefaultBoxes: function() {
-      this.place(0, 9);
-      this.place(20, 9);
+    placeDefaultBoxes: function () {
+      this.place(0, 9)
+      this.place(20, 9)
     }
   }
 }
