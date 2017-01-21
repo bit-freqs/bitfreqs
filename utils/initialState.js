@@ -1,6 +1,6 @@
-module.exports = function(coinLocations){
+module.exports = function(numCoins){
   return {
-    totalCoins: coinLocations.length,
+    totalCoins: numCoins,
     coinsPicked: 0,
     facing: "left",
     jumpTimer: 0
