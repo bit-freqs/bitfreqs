@@ -1,16 +1,16 @@
 var Box = require('./box')
+var {gameHeight, gameWidth} = require('./config')
+
 var checkIfWin = require('./utils/winLogic').checkIfWin
 
-module.exports = function update(updateParameters, setScreen) {
-  var game = updateParameters.game;
-
-  if(updateParameters.player){
-    updatePlayer(updateParameters, setScreen)
-  }
+module.exports = function update(updateParameters) {
+  updatePlayer.bind(this)()
 }
 
-function updatePlayer(updateParameters, setScreen) {
-  var { player, game, gameWidth, gameHeight } = updateParameters
+function updatePlayer() {
+
+  var player = this.player
+  var game = this.game
   var state = player.state
   var cursors = game.input.keyboard.createCursorKeys();
   var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -18,8 +18,11 @@ function updatePlayer(updateParameters, setScreen) {
   var velocityAbs = 300;
 
   player.body.velocity.x = 0;
+
   var endGame = checkIfWin(gameWidth, gameHeight, player.x, player.y, state.totalCoins, state.coinsPicked)
-  if (endGame) return setScreen(game, endGame.payload)
+
+  if (endGame === 'WIN') this.gotoWin() 
+  if (endGame === 'GAME_OVER') this.gotoGameOver() 
 
   if (placeBoxButton.isDown && game.time.now > state.placeBoxTimer) {
     addBox(10 - game.volume, game, state)

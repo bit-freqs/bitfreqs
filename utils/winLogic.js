@@ -16,11 +16,11 @@ function checkIfWin (gameWidth, gameHeight, playerX, playerY, totalCoins, coinsP
   var playerOnGround = playerY >= gameHeight - 50
 
   if (playerAtEndOfScreen && playerPickedAllCoins) {
-    return {payload: {type: 'WIN'} }
+    return 'WIN'
   } else if (playerAtEndOfScreen && !playerPickedAllCoins) {
-    return {payload: {type: 'GAME_OVER'} }
+    return 'GAME_OVER'
   } else if (playerOnGround) {
-    return {payload: {type: 'GAME_OVER'} }
+    return 'GAME_OVER'
   }
   return false
 }
