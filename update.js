@@ -1,15 +1,16 @@
 var checkIfWin = require('./utils/winLogic').checkIfWin
 
-module.exports = function update(updateParameters, state, setScreen) {
+module.exports = function update(updateParameters, setScreen) {
   var game = updateParameters.game;
 
   if(updateParameters.player){
-    updatePlayer(updateParameters, state, setScreen)
+    updatePlayer(updateParameters, setScreen)
   }
 }
 
-function updatePlayer(updateParameters, state, setScreen){
+function updatePlayer(updateParameters, setScreen){
   var { player, game, cursors, jumpButton, gameWidth, gameHeight } = updateParameters
+  var state = player.state
   var velocityAbs = 300;
 
   player.body.velocity.x = 0;

@@ -17,7 +17,7 @@ var initialState = require('./utils/initialState')
 var gameHeight = 750
 var gameWidth = 1200
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
-var state = initialState(grid.coinLocations)
+var playerInitialState = initialState(grid.coinLocations.length)
 
 function preload() {
   game.load.image('block', 'assets/block.png');
@@ -105,13 +105,12 @@ function startGame() {
   player.body.fixedRotation = true;
   player.body.damping = 0.5;
 
-
   var boxPlacer = Box(game)
   for (var location of grid.boxLocations) {
     boxPlacer.place(location.y, location.x)
   }
 
-  var coinPlacer = new Coin(game, player, coinHit);
+  var coinPlacer = new Coin(game, player, createCoinHit(player));
   for (var location of grid.coinLocations) {
     var coin = coinPlacer.place(location.y, location.x)
   }
@@ -127,6 +126,8 @@ function startGame() {
   var cursors = game.input.keyboard.createCursorKeys();
   var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
+  player.state = playerInitialState
+
   updateParameters = {
     player: player,
     cursors: cursors,
@@ -138,14 +139,16 @@ function startGame() {
 }
 
 function update() {
-  return updateModule(updateParameters, state, setScreen)
+  return updateModule(updateParameters, setScreen)
 }
 
-function coinHit(body1, body2) {
-  if(!body2.hasCollided) {
-    this.destroy()
+function createCoinHit(player) {
+  return function coinHit(body1, body2) {
+    if(!body2.hasCollided) {
+      this.destroy()
 
-    state.coinsPicked += 1
-    body2.hasCollided = true
+      player.state.coinsPicked += 1
+      body2.hasCollided = true
+    }
   }
 }
