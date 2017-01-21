@@ -9,10 +9,10 @@ var Coin = require('./coin')
 var Box = require('./box')
 var audio = require('./audio')
 
-pull(
-  audio(),
-  pull.log()
-)
+// pull(
+//   audio(),
+//   pull.log()
+// )
 
 var grid = require('./utils/grid')
 var updateModule = require('./update')
@@ -55,9 +55,9 @@ function create() {
 
     var boxPlacer = Box(game)
     boxPlacer.placeDefaultBoxes()
-    //for (var location of grid.boxLocations) {
-        //boxPlacer.place(location.y, location.x)
-    //}
+    for (var location of grid.boxLocations) {
+        boxPlacer.place(location.y, location.x)
+    }
 
     var coinPlacer = new Coin(game, player, coinHit);
     for (var location of grid.coinLocations) {
@@ -73,6 +73,8 @@ function create() {
         player: player,
         cursors: cursors,
         jumpButton: jumpButton,
+        gameWidth: gameWidth,
+        gameHeight: gameHeight,
         game: game
     }
 }
@@ -82,7 +84,7 @@ function update() {
 }
 
 function coinHit(body1, body2) {
-    if(!body2.hasCollided) { 
+    if(!body2.hasCollided) {
         this.destroy()
 
         state.coinsPicked += 1
