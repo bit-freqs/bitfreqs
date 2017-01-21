@@ -9,6 +9,8 @@ module.exports = function (numCoins) {
     lastActivity: 0,
     placeBoxTimer: 0,
     jumping: false,
-    jumpedLastUpdate: true
+    jumpedLastUpdate: true,
+    qKeyDown: false,
+    maxVolume: 0
   }
 }
