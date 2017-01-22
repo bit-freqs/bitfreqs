@@ -51,7 +51,7 @@ function updatePlayer () {
 
   var canJump = checkIfCanJump(game, player)
   if (isPressingJump(jumpButton, cursors) && canJump && game.time.now > state.jumpTimer) {
-    player.body.velocity.y = -800
+    player.body.velocity.y = -700
     state.jumpTimer = game.time.now + 750
     state.jumping = true
     state.jumpedLastUpdate = true
@@ -68,8 +68,6 @@ function updatePlayer () {
   var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
   if (!idling) {
     state.lastActivity = game.time.now
-  } else {
-    player.animations.stop()
   }
 
   updateAnimation(player, game, state)
