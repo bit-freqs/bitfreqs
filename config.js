@@ -1,4 +1,4 @@
 module.exports = {
   gameWidth: 1200,
-  gameHeight: 750
+  gameHeight: 650
 }

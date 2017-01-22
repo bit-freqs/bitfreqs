@@ -7,6 +7,7 @@ var audio = require('./audio')()
 var updateModule = require('./update')
 var grid = require('./utils/grid')
 var initialState = require('./utils/initialState')
+var background = require('./background')
 
 function Play (game) {
   this.player
@@ -15,16 +16,17 @@ function Play (game) {
 Play.prototype = {
   preload: function () {
     var game = this.game
-    game.load.spritesheet('block', 'assets/ground-sprite.png', 32, 32)
-    game.load.image('background', 'assets/background2.png')
-    game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32)
-    game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100, 16)
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
-    game.load.image('waves', 'assets/wave-sprite-attempt.png')
+    game.load.spritesheet('block', 'assets/ground-sprite.png', 64, 64)
+    game.load.image('restartbutton', 'assets/restart.png', 64, 32)
+    game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32)
+    game.load.spritesheet('dude', 'assets/sprite-character-all.png', 78, 150)
+
+    background.preload(game)
   },
   create: function () {
     var game = this.game
-    createGame(game)
+    createGame.bind(this)(game)
 
     var player = this.player = createPlayer(game)
 
@@ -42,6 +44,9 @@ Play.prototype = {
   gotoWin: function () {
     this.state.start('Win')
   },
+  gotoPlay: function () {
+    this.state.start('Play')
+  },
   gotoGameOver: function () {
     this.state.start('GameOver')
   }
@@ -49,13 +54,14 @@ Play.prototype = {
 
 function createPlayer (game) {
   var player = game.add.sprite(25, gameHeight - 150, 'dude')
-  var animationSpeed = 2
+  player.scale.setTo(0.75)
+  var walkingAnimationSpeed = 6
 
-  player.animations.add('right', [7, 8, 9, 10, 11, 12], animationSpeed, true)
-  player.animations.add('left', [1, 2, 3, 4, 5, 6], animationSpeed, true)
-  player.animations.add('jump-right', [13], animationSpeed, true)
-  player.animations.add('jump-left', [0], animationSpeed, true)
-  player.animations.add('idle', [14, 15], animationSpeed, true)
+  player.animations.add('right', [12, 11, 10, 9, 8, 7], walkingAnimationSpeed, true)
+  player.animations.add('left', [6, 5, 4, 3, 2, 1], walkingAnimationSpeed, true)
+  player.animations.add('jump-right', [13], 1, true)
+  player.animations.add('jump-left', [0], 1, true)
+  player.animations.add('idle', [14, 15], 2, true)
 
   game.physics.p2.enable(player)
 
@@ -68,13 +74,17 @@ function createPlayer (game) {
 }
 
 function createGame (game) {
-  game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background')
-  game.add.sprite(0, gameHeight - 32, 'waves')
   game.physics.startSystem(Phaser.Physics.P2JS)
   game.physics.p2.gravity.y = 2500
   game.physics.p2.world.defaultContactMaterial.friction = 0.3
   game.physics.p2.world.setGlobalStiffness(1e5)
   game.physics.p2.setImpactEvents(true)
+
+  background.create(game)
+
+  var scale = 2
+  var restart = game.add.button(gameWidth - (80 * scale), 10, 'restartbutton', () => this.gotoPlay(), this)
+  restart.scale.setTo(scale, scale)
 
   pull(
       audio,
@@ -92,5 +102,6 @@ function createCoinHit (player) {
     }
   }
 }
+
 
 module.exports = Play

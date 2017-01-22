@@ -1,6 +1,7 @@
 var {gameHeight, gameWidth} = require('./config')
 var Splash = require('./Splash')
 var Play = require('./Play')
+var background = require('./background')
 
 var { createWebFontConfig, createText } = require('./utils/fontSetup')
 
@@ -17,15 +18,14 @@ states.GameOver = function (game) {
 states.GameOver.prototype = {
   preload: function () {
     var game = this.game
-    game.load.image('background', 'assets/background2.png')
+    background.preload(game)
   },
   create: function () {
     var game = this.game
     createWebFontConfig(game)
-    game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background')
+    background.create(game)
 
     var playLabel = createText(game, 'He Dead \n Play again!')
-    playLabel.inputEnabled = true
     playLabel.events.onInputUp.add(() => {
       playLabel.destroy()
       this.state.start('Play')
@@ -42,15 +42,15 @@ states.Win = function (game) {
 states.Win.prototype = {
   preload: function () {
     var game = this.game
-    game.load.image('background', 'assets/background2.png')
+    background.preload(game)
   },
   create: function () {
     var game = this.game
     createWebFontConfig(game)
-    game.add.tileSprite(0, 0, gameWidth, gameHeight, 'background')
+
+    background.create(game)
 
     var playLabel = createText(game, 'VICTORY!! \n Play again!')
-    playLabel.inputEnabled = true
     playLabel.events.onInputUp.add(() => {
       playLabel.destroy()
       this.state.start('Play')
@@ -60,4 +60,3 @@ states.Win.prototype = {
     this.state.start('Play')
   }
 }
-
