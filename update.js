@@ -68,8 +68,6 @@ function updatePlayer () {
   var idling = !cursors.left.isDown && !cursors.right.isDown && !isPressingJump(jumpButton, cursors)
   if (!idling) {
     state.lastActivity = game.time.now
-  } else {
-    player.animations.stop()
   }
 
   updateAnimation(player, game, state)

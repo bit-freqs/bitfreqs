@@ -20,7 +20,7 @@ Play.prototype = {
     game.load.spritesheet('block', 'assets/ground-sprite.png', 64, 64)
     game.load.image('restartbutton', 'assets/restart.png', 64, 32)
     game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32)
-    game.load.spritesheet('dude', 'assets/sprite-character-all.png', 78, 150, 16)
+    game.load.spritesheet('dude', 'assets/sprite-character-all.png', 78, 150)
 
     background.preload(game)
   },
@@ -54,6 +54,7 @@ Play.prototype = {
 
 function createPlayer (game) {
   var player = game.add.sprite(25, gameHeight - 150, 'dude')
+  player.scale.setTo(0.75)
   var walkingAnimationSpeed = 6
 
   player.animations.add('right', [12, 11, 10, 9, 8, 7], walkingAnimationSpeed, true)
