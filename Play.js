@@ -17,10 +17,10 @@ Play.prototype = {
   preload: function () {
     var game = this.game
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
-    game.load.spritesheet('block', 'assets/ground-sprite.png', 32, 32)
+    game.load.spritesheet('block', 'assets/ground-sprite.png', 64, 64)
     game.load.image('restartbutton', 'assets/restart.png', 64, 32)
     game.load.spritesheet('coin', 'assets/sprite-coin.png', 32, 32)
-    game.load.spritesheet('dude', 'assets/sprite-character-all.png', 52, 100, 16)
+    game.load.spritesheet('dude', 'assets/sprite-character-all.png', 78, 150, 16)
 
     background.preload(game)
   },

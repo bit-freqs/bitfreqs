@@ -5,7 +5,7 @@ module.exports = function (game) {
 
   return {
     place: function (x, y) {
-      var box = ag.placeSprite(x, y, 'block', 2)
+      var box = ag.placeSprite(x, y, 'block', 1)
 
       box.animations.add('loseSand', null, 2, true)
       box.animations.play('loseSand')
