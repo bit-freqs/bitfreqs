@@ -12,6 +12,8 @@ module.exports = function (game) {
 
       box.body.static = true
       box.body.setMaterial(ag.material)
+
+      box.body.setRectangle(64, 20, null, -22)
     },
 
     placeDefaultBoxes: function() {

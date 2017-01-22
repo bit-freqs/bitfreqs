@@ -68,6 +68,8 @@ function createPlayer (game) {
   player.body.fixedRotation = true
   player.body.damping = 0.5
 
+  player.body.setRectangle(40, 112.5)
+
   player.state = initialState(grid.coinLocations.length)
 
   return player
