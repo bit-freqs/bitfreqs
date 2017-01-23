@@ -16,6 +16,7 @@ function updatePlayer () {
   var placeBoxButton = game.input.keyboard.addKey(Phaser.Keyboard.Q)
   var restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R)
   var velocityAbs = 400
+  var posY = 9 - game.volume
 
   player.body.velocity.x = 0
 
@@ -28,13 +29,18 @@ function updatePlayer () {
 
   if (placeBoxButton.isDown && !state.qKeyDown) {
     state.qKeyDown = true
-    state.maxVolume = game.volume
+    state.volume = game.volume
+    state.previewBox = createPreviewBox(posY, game, state)
   } else if (placeBoxButton.isDown && state.qKeyDown) {
-    state.maxVolume = game.volume > state.maxVolume ? game.volume : state.maxVolume
+    if(game.volume != state.volume){
+      state.volume = game.volume
+      state.previewBox.destroy()
+      state.previewBox = createPreviewBox(posY, game, state)
+    }
   } else if (!placeBoxButton.isDown && state.qKeyDown) {
     state.qKeyDown = false
-    addBox(9 - state.maxVolume, game, state)
-    state.maxVolume = 0
+    state.previewBox.destroy()
+    addBox(posY, game, state)
   }
 
   tempVoiceInput(game, state)
@@ -49,7 +55,7 @@ function updatePlayer () {
 
   var canJump = checkIfCanJump(game, player)
   if (isPressingJump(jumpButton, cursors) && canJump && game.time.now > state.jumpTimer) {
-    player.body.velocity.y = -700
+    player.body.velocity.y = -850
     state.jumpTimer = game.time.now + 750
     state.jumping = true
     state.jumpedLastUpdate = true
@@ -119,17 +125,24 @@ function tempVoiceInput (game, state) {
   if (game.time.now > state.keypressTimer) {
     for (var key = 48; key <= 57; key++) {
       if (game.input.keyboard.isDown(key)) {
-        var nb = key - 48
-        addBox(nb, game, state)
+        var posY = key - 48
+        addBox(posY, game, state)
         state.keypressTimer = game.time.now + 100
       }
     }
   }
 }
 
-function addBox (nb, game, state) {
+function addBox (posY, game, state) {
   var boxPlacer = new Box(game)
-  boxPlacer.place(state.currentAddCol, nb)
+  boxPlacer.place(state.currentAddCol, posY)
 
   state.currentAddCol += 1
+}
+
+function createPreviewBox (posY, game, state) {
+  var boxPlacer = new Box(game)
+  var previewBox = boxPlacer.place(state.currentAddCol, posY)
+
+  return previewBox
 }
