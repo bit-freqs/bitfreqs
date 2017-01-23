@@ -14,6 +14,7 @@ function updatePlayer () {
   var cursors = game.input.keyboard.createCursorKeys()
   var jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
   var placeBoxButton = game.input.keyboard.addKey(Phaser.Keyboard.Q)
+  var restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R)
   var velocityAbs = 400
 
   player.body.velocity.x = 0
@@ -23,10 +24,7 @@ function updatePlayer () {
   if (endGame === 'WIN') this.gotoWin()
   if (endGame === 'GAME_OVER') this.gotoGameOver()
 
-  // if (placeBoxButton.isDown && game.time.now > state.placeBoxTimer) {
-  //   addBox(10 - game.volume, game, state)
-  //   state.placeBoxTimer = game.time.now + 750
-  // }
+  if (restartKey.isDown) this.gotoPlay()
 
   if (placeBoxButton.isDown && !state.qKeyDown) {
     state.qKeyDown = true
