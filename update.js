@@ -16,7 +16,7 @@ function updatePlayer () {
   var placeBoxButton = game.input.keyboard.addKey(Phaser.Keyboard.Q)
   var restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R)
   var velocityAbs = 400
-  var posY = 9 - state.maxVolume
+  var posY = 9 - game.volume
 
   player.body.velocity.x = 0
 
@@ -29,17 +29,18 @@ function updatePlayer () {
 
   if (placeBoxButton.isDown && !state.qKeyDown) {
     state.qKeyDown = true
-    state.maxVolume = game.volume
+    state.volume = game.volume
     state.previewBox = createPreviewBox(posY, game, state)
   } else if (placeBoxButton.isDown && state.qKeyDown) {
-    state.maxVolume = game.volume //> state.maxVolume ? game.volume : state.maxVolume
-    state.previewBox.destroy()
-    state.previewBox = createPreviewBox(posY, game, state)
+    if(game.volume != state.volume){
+      state.volume = game.volume
+      state.previewBox.destroy()
+      state.previewBox = createPreviewBox(posY, game, state)
+    }
   } else if (!placeBoxButton.isDown && state.qKeyDown) {
     state.qKeyDown = false
     state.previewBox.destroy()
     addBox(posY, game, state)
-    state.maxVolume = 0
   }
 
   tempVoiceInput(game, state)
