@@ -11,6 +11,7 @@ module.exports = function (numCoins) {
     jumping: false,
     jumpedLastUpdate: true,
     qKeyDown: false,
-    volume: 0
+    volume: 0,
+    persistMaxTimer: 0
   }
 }
